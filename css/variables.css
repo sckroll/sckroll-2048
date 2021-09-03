@@ -1,0 +1,20 @@
+:root {
+  /* 색상 변수 */
+  --color-background: #eef0f5;
+  --color-overlay: #00000044;
+  --color-2: #CAF0F8;
+  --color-4: #ADE8F4;
+  --color-8: #90E0EF;
+  --color-16: #48CAE4;
+  --color-32: #00B4D8;
+  --color-64: #0096C7;
+  --color-128: #0077B6;
+  --color-256: #023E8A;
+  --color-512: #032174;
+  --color-1024: #031369;
+  --color-2048: #03045E;
+
+  /* 보드 길이 변수 */
+  --board-width: 512px;
+  --board-height: 512px;
+}
