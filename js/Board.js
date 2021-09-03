@@ -69,9 +69,28 @@ class Board {
     return !this.checkMovableBlock();
   }
 
-  // 블록을 움직일 수 있는지 여부를 반환하는 메소드
-  isMovable() {
+  // 블록의 움직임 여부를 반환하는 메소드
+  isStucked() {
     return this.blockMoveData.length > 0;
+  }
+
+  // 블록이 꽉 찼을 때 움직일 수 있는지 여부를 검사하는 메소드
+  checkMovableBlock() {
+    for (let row = 0; row < ROW_NUM; row++) {
+      for (let col = 0; col < COL_NUM - 1; col++) {
+        if (this.state[row][col] === this.state[row][col + 1]) {
+          return true;
+        }
+      }
+    }
+    for (let col = 0; col < ROW_NUM; col++) {
+      for (let row = 0; row < COL_NUM - 1; row++) {
+        if (this.state[row][col] === this.state[row + 1][col]) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   // 블록 이동 후 나머지 업데이트
@@ -96,25 +115,6 @@ class Board {
       this.emptyPos.push(`${prevRow}${prevCol}`);
     }
     this.blockMoveData = [];
-  }
-
-  // 블록이 꽉 찼을 때 움직일 수 있는지 여부를 검사하는 메소드
-  checkMovableBlock() {
-    for (let row = 0; row < ROW_NUM; row++) {
-      for (let col = 0; col < COL_NUM - 1; col++) {
-        if (this.state[row][col] === this.state[row][col + 1]) {
-          return true;
-        }
-      }
-    }
-    for (let col = 0; col < ROW_NUM; col++) {
-      for (let row = 0; row < COL_NUM - 1; row++) {
-        if (this.state[row][col] === this.state[row + 1][col]) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
   // 이동 후의 행과 열의 좌표 정보를 계산하는 메소드
@@ -229,17 +229,17 @@ class Board {
     const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
     if (arrowKeys.includes(key)) {
       this.move(key);
-      if (this.isGameOver()) {
-        this.$message.innerText = 'GAME OVER';
-        return;
-      }
-      if (this.isMovable()) {
+      if (this.isStucked()) {
         this.update();
         if (this.isFinished()) {
           this.$message.innerText = 'CONGRATULATIONS!';
           return;
         }
         this.render();
+        if (this.isGameOver()) {
+          this.$message.innerText = 'GAME OVER';
+          return;
+        }
       }
     }
   }
