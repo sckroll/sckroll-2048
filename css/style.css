@@ -98,11 +98,16 @@ button:hover {
   font-size: 2em;
   font-weight: 500;
 }
-.score-container {
+.info-wrapper {
+  width: 100%;
   display: flex;
   justify-content: space-between;
 }
-.score {
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+.info-value {
   margin-left: 8px;
 }
 

@@ -25,17 +25,34 @@ class Scene {
     $title.innerText = 'Sckroll 2048';
     $infoContainer.appendChild($title);
 
+    // 제목을 제외한 나머지를 감싸는 영역 DOM
+    const $infoWrapper = document.createElement('div');
+    $infoWrapper.classList.add('info-wrapper');
+    $infoContainer.appendChild($infoWrapper);
+
     // 점수 컨테이너 DOM
     const $scoreContainer = document.createElement('div');
-    $scoreContainer.classList.add('score-container');
+    $scoreContainer.classList.add('info');
     $scoreContainer.innerText = 'Score:';
-    $infoContainer.appendChild($scoreContainer);
+    $infoWrapper.appendChild($scoreContainer);
 
     // 점수 DOM
     const $score = document.createElement('div');
-    $score.classList.add('score');
+    $score.classList.add('info-value');
     $scoreContainer.appendChild($score);
     this.$score = $score;
+
+    // 턴 컨테이너 DOM
+    const $turnContainer = document.createElement('div');
+    $turnContainer.classList.add('info');
+    $turnContainer.innerText = 'Turn:';
+    $infoWrapper.appendChild($turnContainer);
+
+    // 턴 DOM
+    const $turn = document.createElement('div');
+    $turn.classList.add('info-value');
+    $turnContainer.appendChild($turn);
+    this.$turn = $turn;
   }
 
   /**
@@ -126,6 +143,14 @@ class Scene {
    */
   renderScore(score) {
     this.$score.innerText = score;
+  }
+
+  /**
+   * 현재 턴을 렌더링하는 메소드
+   * @param {Number} turn - 현재 턴
+   */
+  renderTurn(turn) {
+    this.$turn.innerText = turn;
   }
 
   /**

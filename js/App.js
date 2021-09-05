@@ -59,9 +59,13 @@ class App {
     this.board.setScoreUpdateEvent(score => {
       this.scene.renderScore(score);
     });
+    this.board.setTurnUpdateEvent(turn => {
+      this.scene.renderTurn(turn);
+    })
 
-    // 점수 초기화
+    // 점수 및 턴 초기화
     this.scene.renderScore(this.board.score);
+    this.scene.renderTurn(this.board.turn);
 
     // 키보드 이벤트 리스너 등록
     // window.addEventListener('keydown', board.keyboardEventListener); // Error

@@ -83,6 +83,14 @@ class Board {
   }
 
   /**
+   * 현재 턴을 갱신할 때 호출하는 함수를 설정하는 메소드
+   * @param {(turn: number) => void} onTurnUpdate - 현재 턴 업데이트 시 호출하는 이벤트 함수
+   */
+  setTurnUpdateEvent(onTurnUpdate) {
+    this.onTurnUpdate = onTurnUpdate;
+  }
+
+  /**
    * 승리 조건(2048 완성)을 만족했는지 검사하는 메소드
    * @returns {boolean} 승리 조건 만족 여부
    */
@@ -142,6 +150,7 @@ class Board {
     }
     this.blockMoveData = [];
     this.turn += 1;
+    this.onTurnUpdate(this.turn);
   }
 
   /**
