@@ -1,21 +1,23 @@
 import { ROW_NUM, COL_NUM } from './config.js';
 
 class Scene {
+  /**
+   * 화면에 나타나는 DOM 객체를 관리하는 클래스
+   * @param {HTMLElement} $app - 루트 DOM 객체
+   */
   constructor($app) {
-    this.renderInfo($app);
-    this.renderBoard($app);
-    this.renderActions($app);
+    this.$app = $app
+    this.renderBoard();
   }
   
   /**
    * 점수를 포함한 상단 영역을 렌더링하는 메소드
-   * @param {HTMLElement} $app - 루트 DOM 객체
    */
-  renderInfo($app) {
+  renderInfo() {
     // 상단 영역 컨테이너 DOM
     const $infoContainer = document.createElement('div');
     $infoContainer.classList.add('info-container');
-    $app.appendChild($infoContainer);
+    this.$app.prepend($infoContainer);
 
     // 제목 DOM
     const $title = document.createElement('h1');
@@ -31,19 +33,18 @@ class Scene {
     // 점수 DOM
     const $score = document.createElement('div');
     $score.classList.add('score');
-    $score.innerText = '0';
     $scoreContainer.appendChild($score);
+    this.$score = $score;
   }
 
   /**
    * 보드 영역을 렌더링하는 메소드
-   * @param {HTMLElement} $app - 루트 DOM 객체
    */
-  renderBoard($app) {
+  renderBoard() {
     // 보드 컨테이너 DOM
     const $boardContainer = document.createElement('div');
     $boardContainer.classList.add('board-container');
-    $app.appendChild($boardContainer);
+    this.$app.appendChild($boardContainer);
 
     // 보드 내부 영역 DOM
     const $boardInner = document.createElement('div');
@@ -70,22 +71,32 @@ class Scene {
 
   /**
    * 게임 설정을 관리하는 하단 영역을 렌더링하는 메소드
-   * @param {HTMLElement} $app - 루트 DOM 객체
    */
-  renderActions($app) {
+  renderActions() {
     const $ActionsContainer = document.createElement('div');
-    $ActionsContainer.classList.add('message-container');
-    $app.appendChild($ActionsContainer);
+    $ActionsContainer.classList.add('actions-container');
+    this.$app.appendChild($ActionsContainer);
+  }
+
+  /**
+   * 점수를 렌더링하는 메소드
+   * @param {Number} score - 현재 점수
+   */
+  renderScore(score) {
+    this.$score.innerText = score;
+  }
+
+  renderBlock(block) {
+
   }
 
   /**
    * 팝업 창 오버레이를 렌더링하는 메소드
-   * @param {HTMLElement} $app - 루트 DOM 객체
    */
-  showOverlay($app) {
+  showOverlay() {
     const $overlay = document.createElement('div');
     $overlay.classList.add('overlay');
-    $app.appendChild($overlay);
+    this.$app.appendChild($overlay);
     this.$overlay = $overlay;
   }
 
@@ -101,37 +112,42 @@ class Scene {
 
   /**
    * 팝업 창을 렌더링하는 메소드
-   * @param {HTMLElement} $app - 루트 DOM 객체
-   * @param {{title: string, buttonText: string}} option - 팝업 창 옵션
-   * @param {function():void} onClick - 시작 버튼을 클릭했을 때 실행되는 함수
+   * @param {{title: string, description: string, buttonText: string}} option - 팝업 창 옵션
+   * @param {() => void} onClick - 시작 버튼을 클릭했을 때 실행되는 함수
    */
-  renderPopup($app, option, onClick) {
+  renderPopup(option, onClick) {
     // 오버레이 렌더링
-    this.showOverlay($app);
+    this.showOverlay();
 
-    // 게임 시작 팝업 DOM
+    // 팝업 창 DOM
     const $popupContainer = document.createElement('div');
     $popupContainer.classList.add('popup-container');
     this.$overlay.appendChild($popupContainer);
-    
-    // 타이틀 DOM
+
+    // 팝업 제목 컨테이너 DOM
+    const $titleContainer = document.createElement('div');
+    $titleContainer.classList.add('title-container');
+    $popupContainer.appendChild($titleContainer);
+
+    // 제목 DOM
     const $popupTitle = document.createElement('h1');
     $popupTitle.classList.add('popup-title');
     $popupTitle.innerText = option.title;
-    $popupContainer.appendChild($popupTitle);
+    $titleContainer.appendChild($popupTitle);
+
+    // 세부 설명 DOM
+    if (option.description) {
+      const $popupDescription = document.createElement('p');
+      $popupDescription.classList.add('popup-description');
+      $popupDescription.innerText = option.description;
+      $titleContainer.appendChild($popupDescription);
+    }
     
     // 버튼 DOM
     const $popupButton = document.createElement('button');
     $popupButton.innerText = option.buttonText;
     $popupButton.addEventListener('click', onClick);
     $popupContainer.appendChild($popupButton);
-  }
-
-  /**
-   * 팝업 창과 팝업 창 오버레이를 숨기고 게임을 시작하는 메소드
-   */
-  startGame() {
-    this.hideOverlay();
   }
 }
 
