@@ -1,3 +1,4 @@
+import Block from './Block.js';
 import { ROW_NUM, COL_NUM } from './config.js';
 
 class Scene {
@@ -67,6 +68,47 @@ class Scene {
     const $board = document.createElement('div');
     $board.classList.add('board', 'front');
     $boardInner.appendChild($board);
+    this.$board = $board;
+  }
+
+  /**
+   * 블록을 화면에 렌더링하는 메소드
+   * @param {Block} block - 생성된 블록 인스턴스
+   */
+  renderNewBlock(block) {
+    const $block = document.createElement('div');
+    $block.classList.add('block', `color-${block.value}`, `r${block.row}`, `c${block.col}`);
+    $block.innerText = block.value;
+    this.$board.appendChild($block);
+  }
+
+  /**
+   * @typedef {object} MoveData 블록 이동 정보를 나타내는 객체
+   * @property {number} prevRow
+   * @property {number} prevCol
+   * @property {number} nextRow
+   * @property {number} nextCol
+   * @property {number} prevValue
+   * @property {number} nextValue
+   * @property {boolean} isCollapsed
+   * @property {string} direction
+   */
+  /**
+   * 블록을 업데이트 후 렌더링하는 메소드
+   * @param {MoveData} moveData - 블록의 업데이트 정보가 담긴 객체
+   */
+  renderUpdatedBlock(moveData) {
+    const [prevRow, prevCol, nextRow, nextCol, prevValue, nextValue, isCollapsed,] = moveData;
+    const $block = this.$board.querySelector(`.r${prevRow}.c${prevCol}`);
+
+    if (isCollapsed) {
+      $block.remove();
+    } else {
+      $block.classList.replace(`r${prevRow}`, `r${nextRow}`);
+      $block.classList.replace(`c${prevCol}`, `c${nextCol}`);
+      $block.classList.replace(`color-${prevValue}`, `color-${nextValue}`);
+      $block.innerText = nextValue;
+    }
   }
 
   /**
@@ -84,10 +126,6 @@ class Scene {
    */
   renderScore(score) {
     this.$score.innerText = score;
-  }
-
-  renderBlock(block) {
-
   }
 
   /**

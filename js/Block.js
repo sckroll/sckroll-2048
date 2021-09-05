@@ -12,7 +12,6 @@ class Block {
     const [row, col] = emptyPos.splice(idx, 1)[0];
 
     this.setCoord(parseInt(row), parseInt(col));
-    this.render($board);
   }
 
   /**
@@ -23,17 +22,6 @@ class Block {
   setCoord(row, col) {
     this.row = row;
     this.col = col;
-  }
-
-  /**
-   * 블록을 화면에 렌더링하는 메소드
-   * @param {HTMLDivElement} $board - 보드 DOM 객체
-   */
-  render($board) {
-    const $block = document.createElement('div');
-    $block.classList.add('block', `color-${this.value}`, `r${this.row}`, `c${this.col}`);
-    $block.innerText = this.value;
-    $board.appendChild($block);
   }
 }
 

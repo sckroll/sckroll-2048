@@ -39,6 +39,47 @@ class Board {
   createBlock() {
     const block = new Block(this.$board, this.emptyPos);
     this.state[block.row][block.col] = block.value;
+    this.onBlockCreate(block);
+  }
+
+  /**
+   * 새 블록을 생성했을 때 호출하는 함수를 설정하는 메소드
+   * @param {(block: Block) => void} onCreate - 새 블록을 만들었을 때 호출하는 이벤트 함수
+   */
+  setCreateBlockEvent(onBlockCreate) {
+    this.onBlockCreate = onBlockCreate;
+  }
+
+  /**
+   * 블록을 업데이트하거나 삭제했을 때 호출하는 함수를 설정하는 메소드
+   * @param {(moveData: MoveData) => void} onBlockUpdate - 블록을 업데이트했을 때 호출하는 이벤트 함수
+   */
+  setUpdateBlockEvent(onBlockUpdate) {
+    this.onBlockUpdate = onBlockUpdate;
+  }
+
+  /**
+   * 게임에서 승리했을 때 호출하는 함수를 설정하는 메소드
+   * @param {() => void} onClear - 승리했을 때 호출하는 이벤트 함수
+   */
+  setClearEvent(onClear) {
+    this.onClear = onClear;
+  }
+
+  /**
+   * 게임에서 패배했을 때 호출하는 함수를 설정하는 메소드
+   * @param {() => void} onGameOver - 게임 오버 시 호출하는 이벤트 함수
+   */
+  setGameOverEvent(onGameOver) {
+    this.onGameOver = onGameOver;
+  }
+
+  /**
+   * 점수를 갱신할 때 호출하는 함수를 설정하는 메소드
+   * @param {(score: number) => void} onScoreUpdate - 점수 업데이트 시 호출하는 이벤트 함수
+   */
+  setScoreUpdateEvent(onScoreUpdate) {
+    this.onScoreUpdate = onScoreUpdate;
   }
 
   /**
@@ -86,19 +127,14 @@ class Board {
    */
   update() {
     for (let data of this.blockMoveData) {
-      const [prevRow, prevCol, nextRow, nextCol, prevValue, nextValue, isCollapsed,] = data;
-      const $block = this.$board.querySelector(`.r${prevRow}.c${prevCol}`);
+      this.onBlockUpdate(data);
+
+      const [prevRow, prevCol, nextRow, nextCol, , nextValue, isCollapsed,] = data;
 
       if (isCollapsed) {
-        $block.remove();
         this.score += nextValue * 2;
         this.onScoreUpdate(this.score);
       } else {
-        $block.classList.replace(`r${prevRow}`, `r${nextRow}`);
-        $block.classList.replace(`c${prevCol}`, `c${nextCol}`);
-        $block.classList.replace(`color-${prevValue}`, `color-${nextValue}`);
-        $block.innerText = nextValue;
-
         const nextPosIdx = this.emptyPos.findIndex(pos => pos === `${nextRow}${nextCol}`);
         this.emptyPos.splice(nextPosIdx, 1);
       }
@@ -236,30 +272,6 @@ class Board {
     } else if (dir === 'Right') {
       this.state = currBoard;
     }
-  }
-
-  /**
-   * 게임에서 승리했을 때 호출하는 함수를 설정하는 메소드
-   * @param {() => void} onClear - 승리했을 때 호출하는 이벤트 함수
-   */
-  setClearEvent(onClear) {
-    this.onClear = onClear;
-  }
-
-  /**
-   * 게임에서 패배했을 때 호출하는 함수를 설정하는 메소드
-   * @param {() => void} onGameOver - 게임 오버 시 호출하는 이벤트 함수
-   */
-  setGameOverEvent(onGameOver) {
-    this.onGameOver = onGameOver;
-  }
-
-  /**
-   * 점수를 갱신할 때 호출하는 함수를 설정하는 메소드
-   * @param {() => void} onScoreUpdate - 점수 업데이트 시 호출하는 이벤트 함수
-   */
-  setScoreUpdateEvent(onScoreUpdate) {
-    this.onScoreUpdate = onScoreUpdate;
   }
 
   /**
