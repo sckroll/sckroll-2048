@@ -67,11 +67,15 @@ class App {
     this.board.setScoreUpdateEvent(score => {
       this.scene.renderScore(score);
     });
+    this.board.setHighScoreUpdateEvent(highScore => {
+      this.scene.renderHighScore(highScore);
+    });
     this.board.setTurnUpdateEvent(turn => {
       this.scene.renderTurn(turn);
     })
 
     // 점수 및 턴 초기화
+    this.scene.renderHighScore(this.board.highScore);
     this.scene.renderScore(this.board.score);
     this.scene.renderTurn(this.board.turn);
 

@@ -30,6 +30,18 @@ class Scene {
     $infoWrapper.classList.add('info-wrapper');
     $infoContainer.appendChild($infoWrapper);
 
+    // 최고 점수 컨테이너 DOM
+    const $highScoreContainer = document.createElement('div');
+    $highScoreContainer.classList.add('info');
+    $highScoreContainer.innerText = 'High Score:';
+    $infoWrapper.appendChild($highScoreContainer);
+
+    // 최고 점수 DOM
+    const $highScore = document.createElement('div');
+    $highScore.classList.add('info-value');
+    $highScoreContainer.appendChild($highScore);
+    this.$highScore = $highScore;
+
     // 점수 컨테이너 DOM
     const $scoreContainer = document.createElement('div');
     $scoreContainer.classList.add('info');
@@ -179,6 +191,14 @@ class Scene {
    */
   renderScore(score) {
     this.$score.innerText = score;
+  }
+
+  /**
+   * 최고 점수를 렌더링하는 메소드
+   * @param {Number} highScore - 현재 최고 점수
+   */
+  renderHighScore(highScore) {
+    this.$highScore.innerText = highScore;
   }
 
   /**

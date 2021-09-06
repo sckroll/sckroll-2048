@@ -16,7 +16,8 @@ class Board {
     this.score = 0;
     this.turn = 1;
     this.largestNum = 0;
-
+    
+    this.highScore =  this.getHighScore();
     this.initialize();
   }
 
@@ -91,6 +92,31 @@ class Board {
   }
 
   /**
+   * 최고 점수를 갱신할 때 호출되는 함수를 설정하는 메소드
+   * @param {(highScore: number) => void} onHighScoreUpdate - 최고 점수 업데이트 시 호출하는 이벤트 함수 
+   */
+  setHighScoreUpdateEvent(onHighScoreUpdate) {
+    this.onHighScoreUpdate = onHighScoreUpdate;
+  }
+
+  /**
+   * 기록을 경신했을 때 최고 점수를 설정하는 메소드
+   * @param {number} score - 새로운 최고 점수
+   */
+  setHighScore(score) {
+    localStorage.setItem('2048-high-score', score);
+  }
+
+  /**
+   * 최고 점수를 불러오는 메소드
+   * @returns {number} 현재 최고 점수
+   */
+  getHighScore() {
+    const highScore = localStorage.getItem('2048-high-score') || 0;
+    return highScore;
+  }
+
+  /**
    * 승리 조건(2048 완성)을 만족했는지 검사하는 메소드
    * @returns {boolean} 승리 조건 만족 여부
    */
@@ -140,15 +166,26 @@ class Board {
       const [prevRow, prevCol, nextRow, nextCol, , nextValue, isCollapsed,] = data;
 
       if (isCollapsed) {
+        // 점수 획득
         this.score += nextValue * 2;
         this.onScoreUpdate(this.score);
+
+        // 최고 점수를 경신했다면 최고 점수 업데이트
+        if (this.score > this.highScore) {
+          this.highScore = this.score;
+          this.onHighScoreUpdate(this.highScore);
+        }
       } else {
         const nextPosIdx = this.emptyPos.findIndex(pos => pos === `${nextRow}${nextCol}`);
         this.emptyPos.splice(nextPosIdx, 1);
       }
       this.emptyPos.push(`${prevRow}${prevCol}`);
     }
+
+    // 블록 이동 정보 초기화
     this.blockMoveData = [];
+
+    // 다음 턴으로
     this.turn += 1;
     this.onTurnUpdate(this.turn);
   }
@@ -295,11 +332,13 @@ class Board {
       if (!this.isStuck()) {
         this.update();
         if (this.isClear()) {
+          this.setHighScore(this.highScore);
           this.onClear();
         }
         
         this.createBlock();
         if (this.isGameOver()) {
+          this.setHighScore(this.highScore);
           this.onGameOver();
         }
       }

@@ -115,14 +115,24 @@ button.width-fixed {
 .info-wrapper {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 .info {
   display: flex;
-  justify-content: space-between;
+  border-right: 1px solid black;
+  padding: 0 16px;
+}
+.info:first-child {
+  padding-left: 0;
+}
+.info:last-child {
+  padding-right: 0;
+  border-right: none;
 }
 .info-value {
+  width: 64px;
   margin-left: 8px;
+  text-align: right;
 }
 
 .board-container {
