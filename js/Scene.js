@@ -146,6 +146,7 @@ class Scene {
     const $replayButton = document.createElement('button');
     $replayButton.classList.add('width-fixed');
     $replayButton.innerText = 'REPLAY';
+    $replayButton.addEventListener('click', this.onReplay);
     $buttonArea.appendChild($replayButton);
 
     // 링크 버튼 컨테이너 DOM
@@ -246,6 +247,14 @@ class Scene {
     $popupButton.innerText = option.buttonText;
     $popupButton.addEventListener('click', onClick);
     $popupContainer.appendChild($popupButton);
+  }
+
+  /**
+   * 재시작 버튼을 클릭했을 때 호출하는 함수를 설정하는 메소드
+   * @param {() => void} onReplay - 재시작 버튼 클릭 시 호출하는 이벤트 함수
+   */
+  setReplayEvent(onReplay) {
+    this.onReplay = onReplay;
   }
 }
 

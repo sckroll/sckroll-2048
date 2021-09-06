@@ -22,6 +22,9 @@ class App {
       this.scene.renderInfo();
     }
     if (!$app.querySelector('.actions-container')) {
+      this.scene.setReplayEvent(() => {
+        this.startGame($app);
+      });
       this.scene.renderActions();
     }
     
@@ -32,6 +35,11 @@ class App {
       for (const $block of $blocks) {
         $block.remove();
       }
+    } else {
+      // 키보드 이벤트 리스너 등록
+      // window.addEventListener('keydown', board.keyboardEventListener); // Error
+      // window.addEventListener('keydown', board.keyboardEventListener.bind(board)); // OK
+      window.addEventListener('keydown', e => this.board.keyboardEventListener(e));
     }
     this.board = new Board($app);
 
@@ -47,14 +55,14 @@ class App {
         title: 'CONGRATULATIONS!',
         description: '축하합니다! 2048을 완성했습니다.',
         buttonText: 'REPLAY'
-      }, () => this.startGame($app))
+      }, () => this.startGame($app));
     });
     this.board.setGameOverEvent(() => {
       this.scene.renderPopup({
         title: 'GAME OVER',
         description: '저런! 다시 도전하세요.',
         buttonText: 'REPLAY'
-      }, () => this.startGame($app))
+      }, () => this.startGame($app));
     });
     this.board.setScoreUpdateEvent(score => {
       this.scene.renderScore(score);
@@ -66,11 +74,6 @@ class App {
     // 점수 및 턴 초기화
     this.scene.renderScore(this.board.score);
     this.scene.renderTurn(this.board.turn);
-
-    // 키보드 이벤트 리스너 등록
-    // window.addEventListener('keydown', board.keyboardEventListener); // Error
-    // window.addEventListener('keydown', board.keyboardEventListener.bind(board)); // OK
-    window.addEventListener('keydown', e => this.board.keyboardEventListener(e));
 
     // 새 블록 생성
     if (this.board.turn === 1) {

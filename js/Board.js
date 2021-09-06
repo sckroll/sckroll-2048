@@ -296,13 +296,11 @@ class Board {
         this.update();
         if (this.isClear()) {
           this.onClear();
-          return;
         }
-
+        
         this.createBlock();
         if (this.isGameOver()) {
           this.onGameOver();
-          return;
         }
       }
     }
