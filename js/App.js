@@ -8,14 +8,14 @@ class App {
     this.scene.renderPopup({
       title: 'Sckroll 2048',
       buttonText: 'START'
-    }, () => this.onClickStart($app));
+    }, () => this.startGame($app));
   }
   
   /**
   * 시작 버튼을 클릭했을 때 발생하는 이벤트를 처리하는 메소드
   * @param {HTMLElement} $app - 루트 DOM 객체
   */
-  onClickStart($app) {
+  startGame($app) {
     // 팝업 및 오버레이 삭제
     this.scene.hideOverlay();
     if (!$app.querySelector('.info-container')) {
@@ -47,14 +47,14 @@ class App {
         title: 'CONGRATULATIONS!',
         description: '축하합니다! 2048을 완성했습니다.',
         buttonText: 'REPLAY'
-      }, () => this.onClickStart($app))
+      }, () => this.startGame($app))
     });
     this.board.setGameOverEvent(() => {
       this.scene.renderPopup({
         title: 'GAME OVER',
         description: '저런! 다시 도전하세요.',
         buttonText: 'REPLAY'
-      }, () => this.onClickStart($app))
+      }, () => this.startGame($app))
     });
     this.board.setScoreUpdateEvent(score => {
       this.scene.renderScore(score);

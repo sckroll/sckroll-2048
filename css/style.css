@@ -37,6 +37,17 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
 }
+a {
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+a:visited {
+  color: black;
+}
+a:hover {
+  color: var(--color-link-hover);
+  transition: all 0.2s ease;
+}
 button {
   cursor: pointer;
   padding: 8px 16px;
@@ -50,6 +61,9 @@ button {
 button:hover {
   box-shadow: 0 0 8px 4px #00000022;
   transition: all 0.2s ease;
+}
+button.width-fixed {
+  width: 128px;
 }
 
 .overlay {
@@ -163,14 +177,25 @@ button:hover {
 .actions-container {
   height: 10%;
   box-sizing: border-box;
+  padding: 16px;
   background-color: white;
   box-shadow: 0 0 8px 4px #00000022;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5em;
+  flex-direction: column;
+  justify-content: space-between;
   animation: 0.3s linear fadeIn;
   animation-iteration-count: 1;
+}
+.button-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.link-icon {
+  font-size: 1.5em;
+}
+.author-area {
+  text-align: center;
 }
 
 .color-2 {

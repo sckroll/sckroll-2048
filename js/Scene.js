@@ -132,9 +132,44 @@ class Scene {
    * 게임 설정을 관리하는 하단 영역을 렌더링하는 메소드
    */
   renderActions() {
+    // 하단 영역 컨테이너 DOM
     const $ActionsContainer = document.createElement('div');
     $ActionsContainer.classList.add('actions-container');
     this.$app.appendChild($ActionsContainer);
+
+    // 버튼 영역 DOM
+    const $buttonArea = document.createElement('div');
+    $buttonArea.classList.add('button-area');
+    $ActionsContainer.appendChild($buttonArea);
+
+    // 재시작 버튼 DOM
+    const $replayButton = document.createElement('button');
+    $replayButton.classList.add('width-fixed');
+    $replayButton.innerText = 'REPLAY';
+    $buttonArea.appendChild($replayButton);
+
+    // 링크 버튼 컨테이너 DOM
+    const $linkContainer = document.createElement('a');
+    $linkContainer.classList.add('link-container');
+    $linkContainer.href = 'https://github.com/sckroll/sckroll-2048';
+    $buttonArea.appendChild($linkContainer);
+
+    // GitHub 링크 버튼 DOM
+    const $githubButton = document.createElement('span');
+    $githubButton.classList.add('link-icon', 'fab', 'fa-github');
+    $linkContainer.appendChild($githubButton);
+
+    // 다크 모드 버튼 DOM
+    const $darkModeButton = document.createElement('button');
+    $darkModeButton.classList.add('width-fixed');
+    $darkModeButton.innerText = 'DARK MODE';
+    $buttonArea.appendChild($darkModeButton);
+
+    // 제작자 정보 영역 DOM
+    const $authorArea = document.createElement('div');
+    $authorArea.classList.add('author-area');
+    $authorArea.innerHTML = 'Developed by <a href="https://sckroll.github.io">Sckroll</a>';
+    $ActionsContainer.appendChild($authorArea);
   }
 
   /**
