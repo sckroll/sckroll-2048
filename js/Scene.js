@@ -9,6 +9,11 @@ class Scene {
   constructor($app) {
     this.$app = $app
     this.renderBoard();
+
+    // 다크 모드 여부 확인
+    if (this.isDarkMode()) {
+      document.documentElement.setAttribute('color-mode', 'dark');
+    }
   }
   
   /**
@@ -175,7 +180,14 @@ class Scene {
     // 다크 모드 버튼 DOM
     const $darkModeButton = document.createElement('button');
     $darkModeButton.classList.add('width-fixed');
-    $darkModeButton.innerText = 'DARK MODE';
+    if (this.isDarkMode()) {
+      document.documentElement.setAttribute('color-mode', 'dark');
+      $darkModeButton.classList.add('dark');
+      $darkModeButton.innerText = 'LIGHT MODE';
+    } else {
+      $darkModeButton.innerText = 'DARK MODE';
+    }
+    $buttonArea.addEventListener('click', this.toggleColorMode);
     $buttonArea.appendChild($darkModeButton);
 
     // 제작자 정보 영역 DOM
@@ -275,6 +287,36 @@ class Scene {
    */
   setReplayEvent(onReplay) {
     this.onReplay = onReplay;
+  }
+
+  /**
+   * 현재 다크 모드 적용 여부를 반환하는 메소드
+   * @returns {boolean} 다크 모드 여부
+   */
+  isDarkMode() {
+    const { matches } = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // 로컬 스토리지 -> OS 설정값 순으로 판단
+    const isStorageValueDark = localStorage.getItem('2048-color-mode') === 'dark';
+    const isOSValueDark = matches && !localStorage.getItem('2048-color-mode');
+    return isStorageValueDark || isOSValueDark;
+  }
+
+  /**
+   * 다크 모드 여부를 토글하는 메소드
+   * @param {MouseEvent} event - 마우스 클릭 이벤트
+   */
+  toggleColorMode({ target }) {
+    if (target.classList.contains('dark')) {
+      // 다크 모드 -> 라이트 모드
+      document.documentElement.setAttribute('color-mode', 'light');
+      localStorage.setItem('2048-color-mode', 'light');
+    } else {
+      // 라이트 모드 -> 다크 모드
+      document.documentElement.setAttribute('color-mode', 'dark');
+      localStorage.setItem('2048-color-mode', 'dark');
+    }
+    target.classList.toggle('dark');
   }
 }
 

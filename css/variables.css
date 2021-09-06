@@ -1,9 +1,18 @@
 :root {
   /* 색상 변수 */
-  --color-background: #eef0f5;
+  --color-overlay: #00000044;
+
+  /* 보드 길이 변수 */
+  --board-width: 512px;
+  --board-height: 512px;
+}
+:root[color-mode="light"] {
+  --color-text: black;
+  --color-background: white;
+  --color-shadow: #00000022;
+  --color-block-slot: #eef0f5;
   --color-description: #5f636e;
   --color-link-hover: #777777;
-  --color-overlay: #00000044;
   --color-2: #CAF0F8;
   --color-4: #ADE8F4;
   --color-8: #90E0EF;
@@ -15,8 +24,23 @@
   --color-512: #032174;
   --color-1024: #031369;
   --color-2048: #03045E;
-
-  /* 보드 길이 변수 */
-  --board-width: 512px;
-  --board-height: 512px;
+}
+:root[color-mode="dark"] {
+  --color-text: white;
+  --color-background: #2b2931;
+  --color-shadow: #00000044;
+  --color-block-slot: #33313a;
+  --color-description: #5f636e;
+  --color-link-hover: #aaaaaa;
+  --color-2: #023E8A;
+  --color-4: #03307F;
+  --color-8: #03297A;
+  --color-16: #032174;
+  --color-32: #031A6F;
+  --color-64: #031369;
+  --color-128: #031064;
+  --color-256: #030C5F;
+  --color-512: #03085A;
+  --color-1024: #030455;
+  --color-2048: #03044D;
 }
