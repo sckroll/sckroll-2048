@@ -54,15 +54,16 @@ button {
   cursor: pointer;
   padding: 8px 16px;
   border: none;
-  box-shadow: 0 0 4px 2px var(--color-shadow);
-  background-color: var(--color-background);
+  box-shadow: 0 0 var(--shadow-blur-default) var(--shadow-spread-default) var(--color-shadow);
+  background-color: var(--color-button);
   color: var(--color-text);
   font-family: 'Poppins', sans-serif;
   font-size: 1em;
   transition: all 0.2s ease;
 }
 button:hover {
-  box-shadow: 0 0 8px 4px var(--color-shadow);
+  box-shadow: 0 0 var(--shadow-blur-wide) var(--shadow-spread-wide) var(--color-shadow);
+  background-color: var(--color-button-hover);
   transition: all 0.2s ease;
 }
 button.width-fixed {
@@ -81,9 +82,9 @@ button.width-fixed {
   background-color: var(--color-overlay);
 }
 .popup-container {
-  background-color: var(--color-background);
+  background-color: var(--color-container);
   padding: 64px;
-  box-shadow: 0 0 8px 4px var(--color-shadow);
+  box-shadow: 0 0 var(--shadow-blur-wide) var(--shadow-spread-wide) var(--color-shadow);
   text-align: center;
 }
 .title-container {
@@ -102,8 +103,8 @@ button.width-fixed {
   height: 12%;
   padding: 16px;
   box-sizing: border-box;
-  box-shadow: 0 0 8px 4px var(--color-shadow);
-  background-color: var(--color-background);
+  box-shadow: 0 0 var(--shadow-blur-wide) var(--shadow-spread-wide) var(--color-shadow);
+  background-color: var(--color-container);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -141,8 +142,8 @@ button.width-fixed {
 .board-container {
   width: var(--board-width);
   height: var(--board-height);
-  box-shadow: 0 0 8px 4px var(--color-shadow);
-  background-color: var(--color-background);
+  box-shadow: 0 0 var(--shadow-blur-wide) var(--shadow-spread-wide) var(--color-shadow);
+  background-color: var(--color-container);
   padding: 16px;
   box-sizing: border-box;
   display: flex;
@@ -191,8 +192,8 @@ button.width-fixed {
   height: 12%;
   box-sizing: border-box;
   padding: 16px;
-  box-shadow: 0 0 8px 4px var(--color-shadow);
-  background-color: var(--color-background);
+  box-shadow: 0 0 var(--shadow-blur-wide) var(--shadow-spread-wide) var(--color-shadow);
+  background-color: var(--color-container);
   display: flex;
   flex-direction: column;
   justify-content: space-around;

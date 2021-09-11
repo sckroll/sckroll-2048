@@ -9,6 +9,9 @@
 :root[color-mode="light"] {
   --color-text: black;
   --color-background: white;
+  --color-container: white;
+  --color-button: white;
+  --color-button-hover: white;
   --color-shadow: #00000022;
   --color-block-slot: #eef0f5;
   --color-description: #5f636e;
@@ -24,13 +27,20 @@
   --color-512: #032174;
   --color-1024: #031369;
   --color-2048: #03045E;
+  --shadow-blur-default: 4px;
+  --shadow-spread-default: 2px;
+  --shadow-blur-wide: 8px;
+  --shadow-spread-wide: 4px;
 }
 :root[color-mode="dark"] {
   --color-text: white;
   --color-background: #2b2931;
+  --color-container: #413f47;
+  --color-button: #5f636e;
+  --color-button-hover: #7c808d;
   --color-shadow: #00000044;
   --color-block-slot: #33313a;
-  --color-description: #5f636e;
+  --color-description: #aaaaaa;
   --color-link-hover: #aaaaaa;
   --color-2: #023E8A;
   --color-4: #03307F;
@@ -43,4 +53,8 @@
   --color-512: #03085A;
   --color-1024: #030455;
   --color-2048: #03044D;
+  --shadow-blur-default: 0;
+  --shadow-spread-default: 0;
+  --shadow-blur-wide: 0;
+  --shadow-spread-wide: 0;
 }
