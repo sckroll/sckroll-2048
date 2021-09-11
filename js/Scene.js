@@ -1,6 +1,9 @@
 import Block from './Block.js';
 import { ROW_NUM, COL_NUM } from './config.js';
 
+const LIGHT_MODE_TEXT = 'LIGHT MODE';
+const DARK_MODE_TEXT = 'DARK MODE';
+
 class Scene {
   /**
    * 화면에 나타나는 DOM 객체를 관리하는 클래스
@@ -183,12 +186,13 @@ class Scene {
     if (this.isDarkMode()) {
       document.documentElement.setAttribute('color-mode', 'dark');
       $darkModeButton.classList.add('dark');
-      $darkModeButton.innerText = 'LIGHT MODE';
+      $darkModeButton.innerText = LIGHT_MODE_TEXT;
     } else {
-      $darkModeButton.innerText = 'DARK MODE';
+      $darkModeButton.innerText = DARK_MODE_TEXT;
     }
-    $buttonArea.addEventListener('click', this.toggleColorMode);
+    $buttonArea.addEventListener('click', e => this.toggleColorMode(e));
     $buttonArea.appendChild($darkModeButton);
+    this.$darkModeButton = $darkModeButton
 
     // 제작자 정보 영역 DOM
     const $authorArea = document.createElement('div');
@@ -316,10 +320,12 @@ class Scene {
       // 다크 모드 -> 라이트 모드
       document.documentElement.setAttribute('color-mode', 'light');
       localStorage.setItem('2048-color-mode', 'light');
+      this.$darkModeButton.innerText = DARK_MODE_TEXT;
     } else {
       // 라이트 모드 -> 다크 모드
       document.documentElement.setAttribute('color-mode', 'dark');
       localStorage.setItem('2048-color-mode', 'dark');
+      this.$darkModeButton.innerText = LIGHT_MODE_TEXT;
     }
     target.classList.toggle('dark');
   }

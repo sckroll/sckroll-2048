@@ -106,7 +106,7 @@ button.width-fixed {
   background-color: var(--color-background);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   animation: 0.3s linear fadeIn;
   animation-iteration-count: 1;
@@ -195,7 +195,7 @@ button.width-fixed {
   background-color: var(--color-background);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   animation: 0.3s linear fadeIn;
   animation-iteration-count: 1;
 }
