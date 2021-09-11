@@ -192,8 +192,13 @@ class Scene {
 
     // 제작자 정보 영역 DOM
     const $authorArea = document.createElement('div');
+    const $original = document.createElement('div');
+    const $developer = document.createElement('div');
     $authorArea.classList.add('author-area');
-    $authorArea.innerHTML = 'Developed by <a href="https://sckroll.github.io">Sckroll</a>';
+    $original.innerHTML = 'Inspired by <a href="https://play2048.co/">Gabriele Cirulli\'s 2048</a>';
+    $developer.innerHTML = 'Developed by <a href="https://sckroll.github.io">Sckroll</a>';
+    $authorArea.appendChild($original);
+    $authorArea.appendChild($developer);
     $ActionsContainer.appendChild($authorArea);
   }
 
