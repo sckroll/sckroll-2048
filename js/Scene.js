@@ -11,6 +11,7 @@ class Scene {
    */
   constructor($app) {
     this.$app = $app
+    this.renderMain();
     this.renderBoard();
 
     // 다크 모드 여부 확인
@@ -76,13 +77,24 @@ class Scene {
   }
 
   /**
+   * 메인(가운데) 영역을 렌더링하는 메소드
+   */
+  renderMain() {
+    // 메인 컨테이너 DOM
+    const $mainContainer = document.createElement('div');
+    $mainContainer.classList.add('main-container');
+    this.$app.appendChild($mainContainer);
+    this.$mainContainer = $mainContainer
+  }
+
+  /**
    * 보드 영역을 렌더링하는 메소드
    */
   renderBoard() {
     // 보드 컨테이너 DOM
     const $boardContainer = document.createElement('div');
     $boardContainer.classList.add('board-container');
-    this.$app.appendChild($boardContainer);
+    this.$mainContainer.appendChild($boardContainer);
 
     // 보드 내부 영역 DOM
     const $boardInner = document.createElement('div');
@@ -106,6 +118,44 @@ class Scene {
     $board.classList.add('board', 'front');
     $boardInner.appendChild($board);
     this.$board = $board;
+  }
+
+  /**
+   * 랭킹 영역을 렌더링하는 메소드
+   */
+  renderRanking() {
+    // 랭킹 컨테이너 DOM
+    const $rankingContainer = document.createElement('div');
+    $rankingContainer.classList.add('ranking-container');
+    this.$mainContainer.prepend($rankingContainer);
+  }
+
+  /**
+   * 로그 영역을 렌더링하는 메소드
+   */
+  renderLog() {
+    // 로그 컨테이너 DOM
+    const $logContainer = document.createElement('div');
+    $logContainer.classList.add('log-container');
+    this.$mainContainer.appendChild($logContainer);
+    this.$logContainer = $logContainer;
+
+    // 로그 토글 버튼 DOM
+    const $logToggleButton = document.createElement('div');
+    $logToggleButton.classList.add('log-toggle-button');
+    $logToggleButton.innerHTML = '로그 <i class="fas fa-chevron-down"></i>'
+    $logContainer.appendChild($logToggleButton);
+    
+    // 로그 영역 DOM
+    const $logContent = document.createElement('div');
+    $logContent.classList.add('log-content');
+    $logToggleButton.addEventListener('click', () => this.toggleLogVisibility());
+    this.$logContent = $logContent;
+
+    // 토글 표시 여부 확인
+    if (localStorage.getItem('2048-log')) {
+      $logContainer.appendChild($logContent);
+    }
   }
 
   /**
@@ -135,7 +185,7 @@ class Scene {
    * @param {MoveData} moveData - 블록의 업데이트 정보가 담긴 객체
    */
   renderUpdatedBlock(moveData) {
-    const [prevRow, prevCol, nextRow, nextCol, prevValue, nextValue, isCollapsed,] = moveData;
+    const { prevRow, prevCol, nextRow, nextCol, prevValue, nextValue, isCollapsed } = moveData;
     const $block = this.$board.querySelector(`.r${prevRow}.c${prevCol}`);
 
     if (isCollapsed) {
@@ -145,6 +195,61 @@ class Scene {
       $block.classList.replace(`c${prevCol}`, `c${nextCol}`);
       $block.classList.replace(`color-${prevValue}`, `color-${nextValue}`);
       $block.innerText = nextValue;
+    }
+  }
+
+  /**
+   * 블록 이동 정보를 로그에 기록하는 메소드
+   * @param {string | null} message - 블록 이동 정보 대신에 표시할 메시지
+   * @param {MoveData[]} [moveDataList] - 블록의 업데이트 정보가 담긴 객체
+   * @param {number} [turn] - 현재 턴
+   */
+  addToLog(message, moveDataList, turn) {
+    const $newLog = document.createElement('div');
+    $newLog.classList.add('log-item');
+    
+    if (message) {
+      const $message = document.createElement('div');
+      $message.classList.add('message')
+      $message.innerText = message;
+      $newLog.appendChild($message);
+    } else {
+      const $direction = document.createElement('i');
+      const $turn = document.createElement('div');
+      const $score = document.createElement('div');
+      const $position = document.createElement('i');
+
+      let addedScore = 0;
+      let dir;
+      for (const moveData of moveDataList) {
+        const { prevValue, nextValue, direction } = moveData;
+        addedScore += (nextValue - prevValue) * 2;
+        dir = direction;
+      }
+
+      $direction.classList.add('direction', 'fas', `fa-arrow-${dir.toLowerCase()}`);
+      $turn.classList.add('turn');
+      $score.classList.add('score');
+      $position.classList.add('position', 'fas', 'fa-th');
+      
+      $turn.innerText = `${turn}턴`;
+      $score.innerText = `+${addedScore}점`;
+
+      $newLog.appendChild($direction);
+      $newLog.appendChild($turn);
+      $newLog.appendChild($score);
+      $newLog.appendChild($position);
+    }
+    
+    this.$logContent.prepend($newLog);
+  }
+
+  /**
+   * 로그를 비우는 메소드
+   */
+  clearLog() {
+    while (this.$logContent.hasChildNodes()) {
+      this.$logContent.removeChild(this.$logContent.lastChild);
     }
   }
 
@@ -328,6 +433,19 @@ class Scene {
       this.$darkModeButton.innerText = LIGHT_MODE_TEXT;
     }
     target.classList.toggle('dark');
+  }
+
+  /**
+   * 로그 화면 표시 여부를 토글하는 메소드
+   */
+  toggleLogVisibility() {
+    if (this.$logContainer.lastChild === this.$logContent) {
+      this.$logContent.remove();
+      localStorage.removeItem('2048-log');
+    } else {
+      this.$logContainer.appendChild(this.$logContent);
+      localStorage.setItem('2048-log', 'true');
+    }
   }
 }
 

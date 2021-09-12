@@ -32,3 +32,17 @@ export function reverseRowElements(board) {
 
   return reversed;
 }
+
+/**
+ * 배열 형식의 데이터를 각 키의 순서에 맞게 매핑하여 객체 타입으로 반환하는 함수
+ * @param {string[]} keys - 객체에 매핑시킬 키를 저장한 문자열 배열
+ * @param {any[]} values - 객체에 매핑시킬 값을 저장한 배열
+ * @returns {object} 각 키와 값이 매핑된 객체
+ */
+export function objectMapper(keys, values) {
+  const result = {};
+  for (let i = 0; i < keys.length; i++) {
+    result[keys[i]] = values[i];
+  }
+  return result;
+}

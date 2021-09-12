@@ -1,6 +1,16 @@
 import Block from './Block.js';
 import { ROW_NUM, COL_NUM } from './config.js';
-import { swapRowsCols, reverseRowElements } from './utils.js';
+import { swapRowsCols, reverseRowElements, objectMapper } from './utils.js';
+
+/**
+ * 배열 형식의 블록 이동 정보를 객체 타입으로 변환하는 함수
+ * @param {any[]} data - 객체에 매핑시킬 값을 저장한 배열
+ * @returns {object} 각 키와 값이 매핑된 객체
+ */
+const getMoveDataObject = data => {
+  const moveDataKeys = ['prevRow', 'prevCol', 'nextRow', 'nextCol', 'prevValue', 'nextValue', 'isCollapsed', 'direction'];
+  return objectMapper(moveDataKeys, data);
+}
 
 class Board {
   /**
@@ -57,6 +67,14 @@ class Board {
    */
   setUpdateBlockEvent(onBlockUpdate) {
     this.onBlockUpdate = onBlockUpdate;
+  }
+
+  /**
+   * 로그를 업데이트했을 때 호출하는 함수를 설정하는 메소드
+   * @param {(message: string | null, moveDataList: MoveData[], turn: number) => void} onLogUpdate - 로그를 업데이트했을 때 호출하는 이벤트 함수
+   */
+  setUpdateLogEvent(onLogUpdate) {
+    this.onLogUpdate = onLogUpdate;
   }
 
   /**
@@ -161,9 +179,10 @@ class Board {
    */
   update() {
     for (let data of this.blockMoveData) {
+      // 화면에 표시되는 블록을 업데이트
       this.onBlockUpdate(data);
 
-      const [prevRow, prevCol, nextRow, nextCol, , nextValue, isCollapsed,] = data;
+      const { prevRow, prevCol, nextRow, nextCol, nextValue, isCollapsed } = data;
 
       if (isCollapsed) {
         // 점수 획득
@@ -181,6 +200,9 @@ class Board {
       }
       this.emptyPos.push(`${prevRow}${prevCol}`);
     }
+
+    // 로그 업데이트
+    this.onLogUpdate(null, this.blockMoveData, this.turn);
 
     // 블록 이동 정보 초기화
     this.blockMoveData = [];
@@ -223,24 +245,22 @@ class Board {
           arr[j] = 0;
           arr[i] *= 2;
 
-          switch (direction) {
-            case 'Up':
-              moveData.push([ROW_NUM - 1 - i, idx, ROW_NUM - 1 - i, idx, arr[i] / 2, arr[i] / 2, true, direction]);
-              moveData.push([ROW_NUM - 1 - j, idx, ROW_NUM - 1 - i, idx, arr[i] / 2, arr[i], false, direction]);
-              break;
-            case 'Down':
-              moveData.push([i, idx, i, idx, arr[i] / 2, arr[i] / 2, true, direction]);
-              moveData.push([j, idx, i, idx, arr[i] / 2, arr[i], false, direction]);
-              break;
-            case 'Left':
-              moveData.push([idx, ROW_NUM - 1 - i, idx, ROW_NUM - 1 - i, arr[i] / 2, arr[i] / 2, true, direction]);
-              moveData.push([idx, ROW_NUM - 1 - j, idx, ROW_NUM - 1 - i, arr[i] / 2, arr[i], false, direction]);
-              break;
-            case 'Right':
-              moveData.push([idx, i, idx, i, arr[i] / 2, arr[i] / 2, true, direction]);
-              moveData.push([idx, j, idx, i, arr[i] / 2, arr[i], false, direction]);
-              break;
+          let removedData, newData;
+          if (direction === 'Up') {
+            removedData = getMoveDataObject([ROW_NUM - 1 - i, idx, ROW_NUM - 1 - i, idx, arr[i] / 2, arr[i] / 2, true, direction]);
+            newData = getMoveDataObject([ROW_NUM - 1 - j, idx, ROW_NUM - 1 - i, idx, arr[i] / 2, arr[i], false, direction]);
+          } else if (direction === 'Down') {
+            removedData = getMoveDataObject([i, idx, i, idx, arr[i] / 2, arr[i] / 2, true, direction]);
+            newData = getMoveDataObject([j, idx, i, idx, arr[i] / 2, arr[i], false, direction]);
+          } else if (direction === 'Left') {
+            removedData = getMoveDataObject([idx, ROW_NUM - 1 - i, idx, ROW_NUM - 1 - i, arr[i] / 2, arr[i] / 2, true, direction]);
+            newData = getMoveDataObject([idx, ROW_NUM - 1 - j, idx, ROW_NUM - 1 - i, arr[i] / 2, arr[i], false, direction]);
+          } else if (direction === 'Right') {
+            removedData = getMoveDataObject([idx, i, idx, i, arr[i] / 2, arr[i] / 2, true, direction]);
+            newData = getMoveDataObject([idx, j, idx, i, arr[i] / 2, arr[i], false, direction]);
           }
+          moveData.push(removedData);
+          moveData.push(newData);
 
           // 현재 가장 높은 숫자인지 검사
           this.largestNum = Math.max(this.largestNum, arr[i]);
@@ -254,20 +274,17 @@ class Board {
             arr[j] = arr[i];
             arr[i] = temp;
 
-            switch (direction) {
-              case 'Up':
-                moveData.push([ROW_NUM - 1 - j, idx, ROW_NUM - 1 - i, idx, arr[i], arr[i], false, direction]);
-                break;
-              case 'Down':
-                moveData.push([j, idx, i, idx, arr[i], arr[i], false, direction]);
-                break;
-              case 'Left':
-                moveData.push([idx, ROW_NUM - 1 - j, idx, ROW_NUM - 1 - i, arr[i], arr[i], false, direction]);
-                break;
-              case 'Right':
-                moveData.push([idx, j, idx, i, arr[i], arr[i], false, direction]);
-                break;
+            let newData;
+            if (direction === 'Up') {
+              newData = getMoveDataObject([ROW_NUM - 1 - j, idx, ROW_NUM - 1 - i, idx, arr[i], arr[i], false, direction]);
+            } else if (direction === 'Down') {
+              newData = getMoveDataObject([j, idx, i, idx, arr[i], arr[i], false, direction]);
+            } else if (direction === 'Left') {
+              newData = getMoveDataObject([idx, ROW_NUM - 1 - j, idx, ROW_NUM - 1 - i, arr[i], arr[i], false, direction]);
+            } else if (direction === 'Right') {
+              newData = getMoveDataObject([idx, j, idx, i, arr[i], arr[i], false, direction]);
             }
+            moveData.push(newData);
           } else {
             // 기준을 왼쪽으로 이동
             break;

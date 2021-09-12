@@ -1,10 +1,9 @@
 :root {
-  /* 색상 변수 */
   --color-overlay: #00000044;
 
-  /* 보드 길이 변수 */
   --board-width: 512px;
   --board-height: 512px;
+  --log-button-height: 48px;
 }
 :root[color-mode="light"] {
   --color-text: black;
@@ -16,6 +15,9 @@
   --color-block-slot: #eef0f5;
   --color-description: #5f636e;
   --color-link-hover: #777777;
+  --color-log-button: white;
+  --color-log-hover: #eef0f5;
+
   --color-2: #CAF0F8;
   --color-4: #ADE8F4;
   --color-8: #90E0EF;
@@ -27,6 +29,7 @@
   --color-512: #032174;
   --color-1024: #031369;
   --color-2048: #03045E;
+
   --shadow-blur-default: 4px;
   --shadow-spread-default: 2px;
   --shadow-blur-wide: 8px;
@@ -42,6 +45,9 @@
   --color-block-slot: #33313a;
   --color-description: #aaaaaa;
   --color-link-hover: #aaaaaa;
+  --color-log-button: #5f636e;
+  --color-log-hover: #7c808d;
+
   --color-2: #023E8A;
   --color-4: #03307F;
   --color-8: #03297A;
@@ -53,6 +59,7 @@
   --color-512: #03085A;
   --color-1024: #030455;
   --color-2048: #03044D;
+
   --shadow-blur-default: 0;
   --shadow-spread-default: 0;
   --shadow-blur-wide: 0;

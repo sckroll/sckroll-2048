@@ -27,6 +27,14 @@ class App {
       });
       this.scene.renderActions();
     }
+    if (!$app.querySelector('.ranking-container')) {
+      this.scene.renderRanking();
+    }
+    if (!$app.querySelector('.log-container')) {
+      this.scene.renderLog();
+    } else {
+      this.scene.clearLog();
+    }
     
     // 보드 생성
     if (this.board) {
@@ -50,6 +58,9 @@ class App {
     this.board.setUpdateBlockEvent(moveData => {
       this.scene.renderUpdatedBlock(moveData);
     })
+    this.board.setUpdateLogEvent((message, moveData, turn) => {
+      this.scene.addToLog(message, moveData, turn);
+    })
     this.board.setClearEvent(() => {
       this.scene.renderPopup({
         title: 'CONGRATULATIONS!',
@@ -58,6 +69,7 @@ class App {
       }, () => this.startGame($app));
     });
     this.board.setGameOverEvent(() => {
+      this.scene.addToLog('--- 게임 오버 ---')
       this.scene.renderPopup({
         title: 'GAME OVER',
         description: '저런! 다시 도전하세요.',

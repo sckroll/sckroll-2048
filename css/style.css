@@ -38,6 +38,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
 }
 a {
   text-decoration: none;
@@ -100,6 +101,7 @@ button.width-fixed {
 }
 
 .info-container {
+  width: 512px;
   height: 12%;
   padding: 16px;
   box-sizing: border-box;
@@ -137,6 +139,13 @@ button.width-fixed {
   width: 64px;
   margin-left: 8px;
   text-align: right;
+}
+
+.main-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  width: 100vw;
 }
 
 .board-container {
@@ -188,7 +197,67 @@ button.width-fixed {
   animation-iteration-count: 1;
 }
 
+.ranking-container {
+  width: 256px;
+  background-color: transparent;
+}
+
+.log-container {
+  width: 256px;
+  box-shadow: 0 0 var(--shadow-blur-wide) var(--shadow-spread-wide) var(--color-shadow);
+  background-color: var(--color-container);
+}
+.log-toggle-button {
+  cursor: pointer;
+  height: var(--log-button-height);
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: var(--color-log-button);
+  transition: all 0.2s ease;
+}
+.log-toggle-button:hover {
+  background-color: var(--color-log-hover);
+  transition: all 0.2s ease;
+}
+.log-content {
+  height: calc(512px - var(--log-button-height));
+  background-color: var(--color-container);
+  overflow-y: scroll;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.log-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+}
+.log-item:first-child {
+  padding-top: 0;
+}
+.log-item:last-child {
+  padding-bottom: 0;
+}
+.log-item .message {
+  width: 100%;
+  text-align: center;
+}
+.log-item .direction {
+  margin-right: 8px;
+}
+.log-item .turn {
+  flex: 1;
+  text-align: right;
+}
+.log-item .score {
+  flex: 1;
+  text-align: right;
+}
+.log-item .position {
+  margin-left: 8px;
+}
+
 .actions-container {
+  width: 512px;
   height: 12%;
   box-sizing: border-box;
   padding: 16px;
