@@ -295,7 +295,7 @@ class Scene {
     } else {
       $darkModeButton.innerText = DARK_MODE_TEXT;
     }
-    $buttonArea.addEventListener('click', e => this.toggleColorMode(e));
+    $darkModeButton.addEventListener('click', e => this.toggleColorMode(e));
     $buttonArea.appendChild($darkModeButton);
     this.$darkModeButton = $darkModeButton
 
