@@ -254,6 +254,44 @@ button.width-fixed {
 }
 .log-item .position {
   margin-left: 8px;
+  position: relative;
+}
+.log-item .position svg {
+  transition: all 0.2s ease;
+}
+.log-item .position:hover svg {
+  color: var(--color-link-hover);
+  transition: all 0.2s ease;
+}
+.position-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.tooltip-container {
+  z-index: 1;
+  width: 160px;
+  height: 160px;
+  position: absolute;
+  top: 24px;
+  right: 0;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: var(--color-tooltip);
+}
+.prev-board {
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  background-color: var(--color-container);
+}
+.prev-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .actions-container {

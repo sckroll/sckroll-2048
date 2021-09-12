@@ -58,8 +58,8 @@ class App {
     this.board.setUpdateBlockEvent(moveData => {
       this.scene.renderUpdatedBlock(moveData);
     })
-    this.board.setUpdateLogEvent((message, moveData, turn) => {
-      this.scene.addToLog(message, moveData, turn);
+    this.board.setUpdateLogEvent((message, moveData, turn, prevState) => {
+      this.scene.addToLog(message, moveData, turn, prevState);
     })
     this.board.setClearEvent(() => {
       this.scene.renderPopup({

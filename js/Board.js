@@ -21,6 +21,7 @@ class Board {
     this.$board = $app.querySelector('.board.front');
 
     this.state = [];
+    this.prevState = [];
     this.emptyPos = [];
     this.blockMoveData = [];
     this.score = 0;
@@ -71,7 +72,7 @@ class Board {
 
   /**
    * 로그를 업데이트했을 때 호출하는 함수를 설정하는 메소드
-   * @param {(message: string | null, moveDataList: MoveData[], turn: number) => void} onLogUpdate - 로그를 업데이트했을 때 호출하는 이벤트 함수
+   * @param {(message: string | null, moveDataList: MoveData[], turn: number, prevState: number[][]) => void} onLogUpdate - 로그를 업데이트했을 때 호출하는 이벤트 함수
    */
   setUpdateLogEvent(onLogUpdate) {
     this.onLogUpdate = onLogUpdate;
@@ -202,7 +203,7 @@ class Board {
     }
 
     // 로그 업데이트
-    this.onLogUpdate(null, this.blockMoveData, this.turn);
+    this.onLogUpdate(null, this.blockMoveData, this.turn, this.prevState);
 
     // 블록 이동 정보 초기화
     this.blockMoveData = [];
@@ -344,6 +345,15 @@ class Board {
   keyboardEventListener({ key }) {
     const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
     if (arrowKeys.includes(key)) {
+      // 현재 블록 위치를 저장 (복사)
+      this.prevState = [];
+      for (let i = 0; i < ROW_NUM; i++) {
+        this.prevState.push([]);
+        for (let j = 0; j < COL_NUM; j++) {
+          this.prevState[i].push(this.state[i][j]);
+        }
+      }
+
       this.move(key);
 
       if (!this.isStuck()) {

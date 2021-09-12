@@ -203,8 +203,9 @@ class Scene {
    * @param {string | null} message - 블록 이동 정보 대신에 표시할 메시지
    * @param {MoveData[]} [moveDataList] - 블록의 업데이트 정보가 담긴 객체
    * @param {number} [turn] - 현재 턴
+   * @param {number[][]} [prevState] - 이전 턴의 블록 위치를 저장한 2차원 배열
    */
-  addToLog(message, moveDataList, turn) {
+  addToLog(message, moveDataList, turn, prevState) {
     const $newLog = document.createElement('div');
     $newLog.classList.add('log-item');
     
@@ -217,7 +218,9 @@ class Scene {
       const $direction = document.createElement('i');
       const $turn = document.createElement('div');
       const $score = document.createElement('div');
-      const $position = document.createElement('i');
+      const $position = document.createElement('div');
+      const $posIcon = document.createElement('i');
+      const $posOverlay = document.createElement('div');
 
       let addedScore = 0;
       let dir;
@@ -230,15 +233,52 @@ class Scene {
       $direction.classList.add('direction', 'fas', `fa-arrow-${dir.toLowerCase()}`);
       $turn.classList.add('turn');
       $score.classList.add('score');
-      $position.classList.add('position', 'fas', 'fa-th');
+      $position.classList.add('position');
+      $posIcon.classList.add('fas', 'fa-th');
+      $posOverlay.classList.add('position-overlay');
       
       $turn.innerText = `${turn}턴`;
       $score.innerText = `+${addedScore}점`;
-
+      
+      $position.appendChild($posIcon);
+      $position.appendChild($posOverlay);
+      
       $newLog.appendChild($direction);
       $newLog.appendChild($turn);
       $newLog.appendChild($score);
       $newLog.appendChild($position);
+
+      // 이전 턴의 블록 위치를 보여주는 툴팁 추가
+      const $tooltipContainer = document.createElement('div');
+      $tooltipContainer.classList.add('tooltip-container');
+      $posOverlay.addEventListener('mouseover', ({ target }) => {
+        $position.appendChild($tooltipContainer);
+
+        const $prevBoard = document.createElement('div');
+        $prevBoard.classList.add('prev-board');
+        $tooltipContainer.appendChild($prevBoard);
+
+        const prevState = JSON.parse(target.dataset.prevPos);
+        for (let i = 0; i < ROW_NUM; i++) {
+          for (let j = 0; j < COL_NUM; j++) {
+            const $prevBlock = document.createElement('div');
+            $prevBlock.classList.add('prev-block', `color-${prevState[i][j]}`);
+            $prevBlock.innerText = prevState[i][j];
+            $prevBoard.appendChild($prevBlock);
+          }
+        }
+      })
+      $posOverlay.addEventListener('mouseleave', () => {
+        if ($position.querySelector('.tooltip-container')) {
+          while ($tooltipContainer.hasChildNodes()) {
+            $tooltipContainer.removeChild($tooltipContainer.lastChild);
+          }
+          $tooltipContainer.remove();
+        }
+      })
+
+      // 이전 턴의 블록 위치를 요소에 저장
+      $posOverlay.dataset.prevPos = JSON.stringify(prevState);
     }
     
     this.$logContent.prepend($newLog);
