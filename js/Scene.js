@@ -1,5 +1,6 @@
 import Block from './Block.js';
 import config from './config.js';
+import { isDarkMode } from './utils.js';
 
 /**
  * @typedef {object} MoveData 블록 이동 정보를 나타내는 객체
@@ -16,15 +17,9 @@ import config from './config.js';
 const { 
   ROW_NUM, 
   COL_NUM, 
-  TEXT_BUTTON_REPLAY, 
-  TEXT_BUTTON_LIGHT, 
-  TEXT_BUTTON_DARK,
   TEXT_SCORE_UNIT,
   TEXT_TURN_UNIT,
   TEXT_LOG_TITLE,
-  LINK_GITHUB,
-  LINK_ORIGINAL,
-  LINK_DEVELOPER
 } = config;
 
 class Scene {
@@ -38,7 +33,7 @@ class Scene {
     this.renderBoard();
 
     // 다크 모드 여부 확인
-    if (this.isDarkMode()) {
+    if (isDarkMode()) {
       document.documentElement.setAttribute('color-mode', 'dark');
     }
   }
@@ -265,64 +260,6 @@ class Scene {
   }
 
   /**
-   * 게임 설정을 관리하는 하단 영역을 렌더링하는 메소드
-   */
-  renderActions() {
-    // 하단 영역 컨테이너 DOM
-    const $ActionsContainer = document.createElement('div');
-    $ActionsContainer.classList.add('actions-container');
-    this.$app.appendChild($ActionsContainer);
-
-    // 버튼 영역 DOM
-    const $buttonArea = document.createElement('div');
-    $buttonArea.classList.add('button-area');
-    $ActionsContainer.appendChild($buttonArea);
-
-    // 재시작 버튼 DOM
-    const $replayButton = document.createElement('button');
-    $replayButton.classList.add('width-fixed');
-    $replayButton.innerText = TEXT_BUTTON_REPLAY;
-    $replayButton.addEventListener('click', this.onReplay);
-    $buttonArea.appendChild($replayButton);
-
-    // 링크 버튼 컨테이너 DOM
-    const $linkContainer = document.createElement('a');
-    $linkContainer.classList.add('link-container');
-    $linkContainer.href = LINK_GITHUB;
-    $buttonArea.appendChild($linkContainer);
-
-    // GitHub 링크 버튼 DOM
-    const $githubButton = document.createElement('span');
-    $githubButton.classList.add('link-icon', 'fab', 'fa-github');
-    $linkContainer.appendChild($githubButton);
-
-    // 다크 모드 버튼 DOM
-    const $darkModeButton = document.createElement('button');
-    $darkModeButton.classList.add('width-fixed');
-    if (this.isDarkMode()) {
-      document.documentElement.setAttribute('color-mode', 'dark');
-      $darkModeButton.classList.add('dark');
-      $darkModeButton.innerText = TEXT_BUTTON_LIGHT;
-    } else {
-      $darkModeButton.innerText = TEXT_BUTTON_DARK;
-    }
-    $darkModeButton.addEventListener('click', e => this.toggleColorMode(e));
-    $buttonArea.appendChild($darkModeButton);
-    this.$darkModeButton = $darkModeButton
-
-    // 제작자 정보 영역 DOM
-    const $authorArea = document.createElement('div');
-    const $original = document.createElement('div');
-    const $developer = document.createElement('div');
-    $authorArea.classList.add('author-area');
-    $original.innerHTML = `Inspired by <a href="${LINK_ORIGINAL}">Gabriele Cirulli\'s 2048</a>`;
-    $developer.innerHTML = `Developed by <a href="${LINK_DEVELOPER}">Sckroll</a>`;
-    $authorArea.appendChild($original);
-    $authorArea.appendChild($developer);
-    $ActionsContainer.appendChild($authorArea);
-  }
-
-  /**
    * 팝업 창 오버레이를 렌더링하는 메소드
    */
   showOverlay() {
@@ -380,46 +317,6 @@ class Scene {
     $popupButton.innerText = option.buttonText;
     $popupButton.addEventListener('click', onClick);
     $popupContainer.appendChild($popupButton);
-  }
-
-  /**
-   * 재시작 버튼을 클릭했을 때 호출하는 함수를 설정하는 메소드
-   * @param {() => void} onReplay - 재시작 버튼 클릭 시 호출하는 이벤트 함수
-   */
-  setReplayEvent(onReplay) {
-    this.onReplay = onReplay;
-  }
-
-  /**
-   * 현재 다크 모드 적용 여부를 반환하는 메소드
-   * @returns {boolean} 다크 모드 여부
-   */
-  isDarkMode() {
-    const { matches } = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    // 로컬 스토리지 -> OS 설정값 순으로 판단
-    const isStorageValueDark = localStorage.getItem('2048-color-mode') === 'dark';
-    const isOSValueDark = matches && !localStorage.getItem('2048-color-mode');
-    return isStorageValueDark || isOSValueDark;
-  }
-
-  /**
-   * 다크 모드 여부를 토글하는 메소드
-   * @param {MouseEvent} event - 마우스 클릭 이벤트
-   */
-  toggleColorMode({ target }) {
-    if (target.classList.contains('dark')) {
-      // 다크 모드 -> 라이트 모드
-      document.documentElement.setAttribute('color-mode', 'light');
-      localStorage.setItem('2048-color-mode', 'light');
-      this.$darkModeButton.innerText = TEXT_BUTTON_DARK;
-    } else {
-      // 라이트 모드 -> 다크 모드
-      document.documentElement.setAttribute('color-mode', 'dark');
-      localStorage.setItem('2048-color-mode', 'dark');
-      this.$darkModeButton.innerText = TEXT_BUTTON_LIGHT;
-    }
-    target.classList.toggle('dark');
   }
 
   /**

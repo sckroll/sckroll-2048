@@ -65,3 +65,16 @@ export function copyMatrix(source) {
 
   return copied;
 }
+
+/**
+ * 현재 다크 모드 적용 여부를 반환하는 메소드
+ * @returns {boolean} 다크 모드 여부
+ */
+export function isDarkMode() {
+  const { matches } = window.matchMedia('(prefers-color-scheme: dark)');
+
+  // 로컬 스토리지 -> OS 설정값 순으로 판단
+  const isStorageValueDark = localStorage.getItem('2048-color-mode') === 'dark';
+  const isOSValueDark = matches && !localStorage.getItem('2048-color-mode');
+  return isStorageValueDark || isOSValueDark;
+}

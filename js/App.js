@@ -1,5 +1,6 @@
 import Scene from './Scene.js';
 import Info from './Info.js'
+import Actions from './Actions.js';
 import Board from './Board.js';
 import config from './config.js';
 
@@ -38,11 +39,11 @@ class App {
     if (!this.info) {
       this.info = new Info(this.$app);
     }
-    if (!this.$app.querySelector('.actions-container')) {
-      this.scene.setReplayEvent(() => {
+    if (!this.actions) {
+      this.actions = new Actions(this.$app);
+      this.actions.setReplayEvent(() => {
         this.startGame();
       });
-      this.scene.renderActions();
     }
     if (!this.$app.querySelector('.ranking-container')) {
       this.scene.renderRanking();
