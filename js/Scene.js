@@ -250,13 +250,6 @@ class Scene {
       const $posOverlay = document.createElement('div');
       $posOverlay.classList.add('position-overlay');
 
-      $position.appendChild($posIcon);
-      $position.appendChild($posOverlay);
-      $newLog.appendChild($direction);
-      $newLog.appendChild($turn);
-      $newLog.appendChild($score);
-      $newLog.appendChild($position);
-
       // 이전 턴의 블록 위치를 보여주는 툴팁 구현
       const $tooltipContainer = document.createElement('div');
       $tooltipContainer.classList.add('tooltip-container');
@@ -293,6 +286,14 @@ class Scene {
 
       // 이전 턴의 블록 위치를 요소에 저장
       $posOverlay.dataset.prevPos = JSON.stringify(prevState);
+
+      // DOM 연결
+      $position.appendChild($posIcon);
+      $position.appendChild($posOverlay);
+      $newLog.appendChild($direction);
+      $newLog.appendChild($turn);
+      $newLog.appendChild($score);
+      $newLog.appendChild($position);
     }
     
     this.$logContent.prepend($newLog);

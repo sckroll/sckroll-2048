@@ -59,10 +59,10 @@ class Board {
 
   /**
    * 새 블록을 생성하는 메소드
+   * @param {nunber} [value] - 블록의 값 
    */
-  createBlock() {
-    const block = new Block(this.$board, this.emptyPos);
-    this.state[block.row][block.col] = block.value;
+  createBlock(value) {
+    const block = new Block(this.state, this.emptyPos, value);
     this.onBlockCreate(block);
   }
 
@@ -224,7 +224,7 @@ class Board {
     this.turn += 1;
     this.onTurnUpdate(this.turn);
   }
-  
+
   /**
    * 이동 후의 현재 행에 대해 좌표 정보를 계산하는 메소드
    * @param {number[]} arr - 변형된 행렬의 현재 행을 저장한 배열
