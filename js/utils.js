@@ -1,4 +1,5 @@
-import { ROW_NUM, COL_NUM } from './config.js';
+import config from './config.js';
+const { ROW_NUM, COL_NUM } = config;
 
 /**
  * 행렬의 각 열과 행을 스왑하는 함수

@@ -1,7 +1,5 @@
 import Block from './Block.js';
-import { ROW_NUM, COL_NUM, messages } from './config.js';
-
-const { TITLE, BUTTON_REPLAY, TEXT_LIGHT_MODE, TEXT_DARK_MODE } = messages;
+import config from './config.js';
 
 /**
  * @typedef {object} MoveData 블록 이동 정보를 나타내는 객체
@@ -14,6 +12,24 @@ const { TITLE, BUTTON_REPLAY, TEXT_LIGHT_MODE, TEXT_DARK_MODE } = messages;
  * @property {boolean} isCollapsed
  * @property {string} direction
  */
+
+const { 
+  ROW_NUM, 
+  COL_NUM, 
+  TITLE, 
+  TEXT_BUTTON_REPLAY, 
+  TEXT_BUTTON_LIGHT, 
+  TEXT_BUTTON_DARK,
+  TEXT_HIGH_SCORE,
+  TEXT_SCORE_TITLE,
+  TEXT_SCORE_UNIT,
+  TEXT_TURN_TITLE,
+  TEXT_TURN_UNIT,
+  TEXT_LOG_TITLE,
+  LINK_GITHUB,
+  LINK_ORIGINAL,
+  LINK_DEVELOPER
+} = config;
 
 class Scene {
   /**
@@ -53,7 +69,7 @@ class Scene {
     // 최고 점수 컨테이너 DOM
     const $highScoreContainer = document.createElement('div');
     $highScoreContainer.classList.add('info');
-    $highScoreContainer.innerText = 'High Score:';
+    $highScoreContainer.innerText = `${TEXT_HIGH_SCORE}:`;
     $infoWrapper.appendChild($highScoreContainer);
 
     // 최고 점수 DOM
@@ -65,7 +81,7 @@ class Scene {
     // 점수 컨테이너 DOM
     const $scoreContainer = document.createElement('div');
     $scoreContainer.classList.add('info');
-    $scoreContainer.innerText = 'Score:';
+    $scoreContainer.innerText = `${TEXT_SCORE_TITLE}:`;
     $infoWrapper.appendChild($scoreContainer);
 
     // 점수 DOM
@@ -77,7 +93,7 @@ class Scene {
     // 턴 컨테이너 DOM
     const $turnContainer = document.createElement('div');
     $turnContainer.classList.add('info');
-    $turnContainer.innerText = 'Turn:';
+    $turnContainer.innerText = `${TEXT_TURN_TITLE}:`;
     $infoWrapper.appendChild($turnContainer);
 
     // 턴 DOM
@@ -154,7 +170,7 @@ class Scene {
     // 로그 토글 버튼 DOM
     const $logToggleButton = document.createElement('div');
     $logToggleButton.classList.add('log-toggle-button');
-    $logToggleButton.innerHTML = '로그 <i class="fas fa-chevron-down"></i>'
+    $logToggleButton.innerHTML = `${TEXT_LOG_TITLE} <i class="fas fa-chevron-down"></i>`;
     $logContainer.appendChild($logToggleButton);
     
     // 로그 영역 DOM
@@ -231,12 +247,12 @@ class Scene {
       // 이전 턴 DOM
       const $turn = document.createElement('div');
       $turn.classList.add('turn');
-      $turn.innerText = `${turn}턴`;
+      $turn.innerText = `${turn}${TEXT_TURN_UNIT}`;
 
       // 획득 점수 DOM
       const $score = document.createElement('div');
       $score.classList.add('score');
-      $score.innerText = `+${addedScore}점`;
+      $score.innerText = `+${addedScore}${TEXT_SCORE_UNIT}`;
 
       // 이전 위치 툴팁 아이콘 컨테이너 DOM
       const $position = document.createElement('div');
@@ -325,14 +341,14 @@ class Scene {
     // 재시작 버튼 DOM
     const $replayButton = document.createElement('button');
     $replayButton.classList.add('width-fixed');
-    $replayButton.innerText = BUTTON_REPLAY;
+    $replayButton.innerText = TEXT_BUTTON_REPLAY;
     $replayButton.addEventListener('click', this.onReplay);
     $buttonArea.appendChild($replayButton);
 
     // 링크 버튼 컨테이너 DOM
     const $linkContainer = document.createElement('a');
     $linkContainer.classList.add('link-container');
-    $linkContainer.href = 'https://github.com/sckroll/sckroll-2048';
+    $linkContainer.href = LINK_GITHUB;
     $buttonArea.appendChild($linkContainer);
 
     // GitHub 링크 버튼 DOM
@@ -346,9 +362,9 @@ class Scene {
     if (this.isDarkMode()) {
       document.documentElement.setAttribute('color-mode', 'dark');
       $darkModeButton.classList.add('dark');
-      $darkModeButton.innerText = TEXT_LIGHT_MODE;
+      $darkModeButton.innerText = TEXT_BUTTON_LIGHT;
     } else {
-      $darkModeButton.innerText = TEXT_DARK_MODE;
+      $darkModeButton.innerText = TEXT_BUTTON_DARK;
     }
     $darkModeButton.addEventListener('click', e => this.toggleColorMode(e));
     $buttonArea.appendChild($darkModeButton);
@@ -359,8 +375,8 @@ class Scene {
     const $original = document.createElement('div');
     const $developer = document.createElement('div');
     $authorArea.classList.add('author-area');
-    $original.innerHTML = 'Inspired by <a href="https://play2048.co/">Gabriele Cirulli\'s 2048</a>';
-    $developer.innerHTML = 'Developed by <a href="https://sckroll.github.io">Sckroll</a>';
+    $original.innerHTML = `Inspired by <a href="${LINK_ORIGINAL}">Gabriele Cirulli\'s 2048</a>`;
+    $developer.innerHTML = `Developed by <a href="${LINK_DEVELOPER}">Sckroll</a>`;
     $authorArea.appendChild($original);
     $authorArea.appendChild($developer);
     $ActionsContainer.appendChild($authorArea);
@@ -480,12 +496,12 @@ class Scene {
       // 다크 모드 -> 라이트 모드
       document.documentElement.setAttribute('color-mode', 'light');
       localStorage.setItem('2048-color-mode', 'light');
-      this.$darkModeButton.innerText = TEXT_DARK_MODE;
+      this.$darkModeButton.innerText = TEXT_BUTTON_DARK;
     } else {
       // 라이트 모드 -> 다크 모드
       document.documentElement.setAttribute('color-mode', 'dark');
       localStorage.setItem('2048-color-mode', 'dark');
-      this.$darkModeButton.innerText = TEXT_LIGHT_MODE;
+      this.$darkModeButton.innerText = TEXT_BUTTON_LIGHT;
     }
     target.classList.toggle('dark');
   }

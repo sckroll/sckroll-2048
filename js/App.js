@@ -1,6 +1,6 @@
 import Scene from './scene.js';
 import Board from './Board.js';
-import { messages } from './config.js';
+import config from './config.js';
 
 const { 
   TITLE, 
@@ -8,11 +8,11 @@ const {
   GAME_CLEAR_DESC, 
   GAME_OVER, 
   GAME_OVER_DESC, 
-  BUTTON_START, 
-  BUTTON_REPLAY,
   LOG_GAME_CLEAR,
-  LOG_GAME_OVER
-} = messages;
+  LOG_GAME_OVER,
+  TEXT_BUTTON_START, 
+  TEXT_BUTTON_REPLAY,
+} = config;
 
 class App {
   constructor($app) {
@@ -22,7 +22,7 @@ class App {
     // 화면 렌더링
     this.scene.renderPopup({
       title: TITLE,
-      buttonText: BUTTON_START
+      buttonText: TEXT_BUTTON_START
     }, () => this.startGame());
   }
 
@@ -105,7 +105,7 @@ class App {
       this.scene.renderPopup({
         title: GAME_CLEAR_TITLE,
         description: GAME_CLEAR_DESC,
-        buttonText: BUTTON_REPLAY
+        buttonText: TEXT_BUTTON_REPLAY
       }, () => this.startGame(this.$app));
     });
 
@@ -115,7 +115,7 @@ class App {
       this.scene.renderPopup({
         title: GAME_OVER,
         description: GAME_OVER_DESC,
-        buttonText: BUTTON_REPLAY
+        buttonText: TEXT_BUTTON_REPLAY
       }, () => this.startGame(this.$app));
     });
 
