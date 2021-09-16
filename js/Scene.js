@@ -1,8 +1,19 @@
 import Block from './Block.js';
-import { ROW_NUM, COL_NUM } from './config.js';
+import { ROW_NUM, COL_NUM, messages } from './config.js';
 
-const LIGHT_MODE_TEXT = 'LIGHT MODE';
-const DARK_MODE_TEXT = 'DARK MODE';
+const { TITLE, BUTTON_REPLAY, TEXT_LIGHT_MODE, TEXT_DARK_MODE } = messages;
+
+/**
+ * @typedef {object} MoveData 블록 이동 정보를 나타내는 객체
+ * @property {number} prevRow
+ * @property {number} prevCol
+ * @property {number} nextRow
+ * @property {number} nextCol
+ * @property {number} prevValue
+ * @property {number} nextValue
+ * @property {boolean} isCollapsed
+ * @property {string} direction
+ */
 
 class Scene {
   /**
@@ -31,7 +42,7 @@ class Scene {
 
     // 제목 DOM
     const $title = document.createElement('h1');
-    $title.innerText = 'Sckroll 2048';
+    $title.innerText = TITLE;
     $infoContainer.appendChild($title);
 
     // 제목을 제외한 나머지를 감싸는 영역 DOM
@@ -170,17 +181,6 @@ class Scene {
   }
 
   /**
-   * @typedef {object} MoveData 블록 이동 정보를 나타내는 객체
-   * @property {number} prevRow
-   * @property {number} prevCol
-   * @property {number} nextRow
-   * @property {number} nextCol
-   * @property {number} prevValue
-   * @property {number} nextValue
-   * @property {boolean} isCollapsed
-   * @property {string} direction
-   */
-  /**
    * 블록을 업데이트 후 렌더링하는 메소드
    * @param {MoveData} moveData - 블록의 업데이트 정보가 담긴 객체
    */
@@ -215,13 +215,7 @@ class Scene {
       $message.innerText = message;
       $newLog.appendChild($message);
     } else {
-      const $direction = document.createElement('i');
-      const $turn = document.createElement('div');
-      const $score = document.createElement('div');
-      const $position = document.createElement('div');
-      const $posIcon = document.createElement('i');
-      const $posOverlay = document.createElement('div');
-
+      // 이동 방향 추출 및 이전 턴에서 얻은 점수를 합산
       let addedScore = 0;
       let dir;
       for (const moveData of moveDataList) {
@@ -230,27 +224,44 @@ class Scene {
         dir = direction;
       }
 
+      // 방향 아이콘 DOM
+      const $direction = document.createElement('i');
       $direction.classList.add('direction', 'fas', `fa-arrow-${dir.toLowerCase()}`);
+
+      // 이전 턴 DOM
+      const $turn = document.createElement('div');
       $turn.classList.add('turn');
-      $score.classList.add('score');
-      $position.classList.add('position');
-      $posIcon.classList.add('fas', 'fa-th');
-      $posOverlay.classList.add('position-overlay');
-      
       $turn.innerText = `${turn}턴`;
+
+      // 획득 점수 DOM
+      const $score = document.createElement('div');
+      $score.classList.add('score');
       $score.innerText = `+${addedScore}점`;
-      
+
+      // 이전 위치 툴팁 아이콘 컨테이너 DOM
+      const $position = document.createElement('div');
+      $position.classList.add('position');
+
+      // 이전 위치 툴팁 아이콘 DOM
+      const $posIcon = document.createElement('i');
+      $posIcon.classList.add('fas', 'fa-th');
+
+      // 이전 위치 툴팁 오버레이 DOM
+      const $posOverlay = document.createElement('div');
+      $posOverlay.classList.add('position-overlay');
+
       $position.appendChild($posIcon);
       $position.appendChild($posOverlay);
-      
       $newLog.appendChild($direction);
       $newLog.appendChild($turn);
       $newLog.appendChild($score);
       $newLog.appendChild($position);
 
-      // 이전 턴의 블록 위치를 보여주는 툴팁 추가
+      // 이전 턴의 블록 위치를 보여주는 툴팁 구현
       const $tooltipContainer = document.createElement('div');
       $tooltipContainer.classList.add('tooltip-container');
+
+      // 툴팁 아이콘에 마우스를 올릴 때 툴팁이 나타나는 이벤트 처리
       $posOverlay.addEventListener('mouseover', ({ target }) => {
         $position.appendChild($tooltipContainer);
 
@@ -258,6 +269,7 @@ class Scene {
         $prevBoard.classList.add('prev-board');
         $tooltipContainer.appendChild($prevBoard);
 
+        // data-prevPos 속성에 저장된 값을 불러와 2차원 배열로 변환 후 사용
         const prevState = JSON.parse(target.dataset.prevPos);
         for (let i = 0; i < ROW_NUM; i++) {
           for (let j = 0; j < COL_NUM; j++) {
@@ -268,6 +280,8 @@ class Scene {
           }
         }
       })
+
+      // 툴팁 아이콘에서 마우스를 뗐을 때 툴팁이 사라지는 이벤트 처리
       $posOverlay.addEventListener('mouseleave', () => {
         if ($position.querySelector('.tooltip-container')) {
           while ($tooltipContainer.hasChildNodes()) {
@@ -310,7 +324,7 @@ class Scene {
     // 재시작 버튼 DOM
     const $replayButton = document.createElement('button');
     $replayButton.classList.add('width-fixed');
-    $replayButton.innerText = 'REPLAY';
+    $replayButton.innerText = BUTTON_REPLAY;
     $replayButton.addEventListener('click', this.onReplay);
     $buttonArea.appendChild($replayButton);
 
@@ -331,9 +345,9 @@ class Scene {
     if (this.isDarkMode()) {
       document.documentElement.setAttribute('color-mode', 'dark');
       $darkModeButton.classList.add('dark');
-      $darkModeButton.innerText = LIGHT_MODE_TEXT;
+      $darkModeButton.innerText = TEXT_LIGHT_MODE;
     } else {
-      $darkModeButton.innerText = DARK_MODE_TEXT;
+      $darkModeButton.innerText = TEXT_DARK_MODE;
     }
     $darkModeButton.addEventListener('click', e => this.toggleColorMode(e));
     $buttonArea.appendChild($darkModeButton);
@@ -465,12 +479,12 @@ class Scene {
       // 다크 모드 -> 라이트 모드
       document.documentElement.setAttribute('color-mode', 'light');
       localStorage.setItem('2048-color-mode', 'light');
-      this.$darkModeButton.innerText = DARK_MODE_TEXT;
+      this.$darkModeButton.innerText = TEXT_DARK_MODE;
     } else {
       // 라이트 모드 -> 다크 모드
       document.documentElement.setAttribute('color-mode', 'dark');
       localStorage.setItem('2048-color-mode', 'dark');
-      this.$darkModeButton.innerText = LIGHT_MODE_TEXT;
+      this.$darkModeButton.innerText = TEXT_LIGHT_MODE;
     }
     target.classList.toggle('dark');
   }

@@ -1,6 +1,18 @@
 import Block from './Block.js';
 import { ROW_NUM, COL_NUM } from './config.js';
-import { swapRowsCols, reverseRowElements, objectMapper } from './utils.js';
+import { swapRowsCols, reverseRowElements, objectMapper, copyMatrix } from './utils.js';
+
+/**
+ * @typedef {object} MoveData 블록 이동 정보를 나타내는 객체
+ * @property {number} prevRow
+ * @property {number} prevCol
+ * @property {number} nextRow
+ * @property {number} nextCol
+ * @property {number} prevValue
+ * @property {number} nextValue
+ * @property {boolean} isCollapsed
+ * @property {string} direction
+ */
 
 /**
  * 배열 형식의 블록 이동 정보를 객체 타입으로 변환하는 함수
@@ -80,10 +92,10 @@ class Board {
 
   /**
    * 게임에서 승리했을 때 호출하는 함수를 설정하는 메소드
-   * @param {() => void} onClear - 승리했을 때 호출하는 이벤트 함수
+   * @param {() => void} onGameClear - 승리했을 때 호출하는 이벤트 함수
    */
-  setClearEvent(onClear) {
-    this.onClear = onClear;
+  setGameClearEvent(onGameClear) {
+    this.onGameClear = onGameClear;
   }
 
   /**
@@ -139,7 +151,7 @@ class Board {
    * 승리 조건(2048 완성)을 만족했는지 검사하는 메소드
    * @returns {boolean} 승리 조건 만족 여부
    */
-  isClear() {
+  isGameClear() {
     return this.largestNum === 2048;
   }
 
@@ -212,18 +224,7 @@ class Board {
     this.turn += 1;
     this.onTurnUpdate(this.turn);
   }
-
-  /**
-   * @typedef {object} MoveData 블록 이동 정보를 나타내는 객체
-   * @property {number} prevRow
-   * @property {number} prevCol
-   * @property {number} nextRow
-   * @property {number} nextCol
-   * @property {number} prevValue
-   * @property {number} nextValue
-   * @property {boolean} isCollapsed
-   * @property {string} direction
-   */
+  
   /**
    * 이동 후의 현재 행에 대해 좌표 정보를 계산하는 메소드
    * @param {number[]} arr - 변형된 행렬의 현재 행을 저장한 배열
@@ -346,24 +347,26 @@ class Board {
     const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
     if (arrowKeys.includes(key)) {
       // 현재 블록 위치를 저장 (복사)
-      this.prevState = [];
-      for (let i = 0; i < ROW_NUM; i++) {
-        this.prevState.push([]);
-        for (let j = 0; j < COL_NUM; j++) {
-          this.prevState[i].push(this.state[i][j]);
-        }
-      }
+      this.prevState = copyMatrix(this.state);
 
+      // 블록 이동
       this.move(key);
 
+      // 블록 막힘 여부 확인
       if (!this.isStuck()) {
+        // 점수, 턴 등 업데이트
         this.update();
-        if (this.isClear()) {
+
+        // 게임 승리 여부 판단
+        if (this.isGameClear()) {
           this.setHighScore(this.highScore);
-          this.onClear();
+          this.onGameClear();
         }
         
+        // 새 블록 생성
         this.createBlock();
+
+        // 게임 오버 여부 판단
         if (this.isGameOver()) {
           this.setHighScore(this.highScore);
           this.onGameOver();

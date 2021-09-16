@@ -46,3 +46,21 @@ export function objectMapper(keys, values) {
   }
   return result;
 }
+
+/**
+ * 2차원 행렬을 복사하는 함수
+ * @param {number[][]} source - 복사의 대상이 되는 2차원 배열
+ * @returns {number[][]} 복사된 2차원 배열
+ */
+export function copyMatrix(source) {
+  const copied = []
+
+  for (let i = 0; i < ROW_NUM; i++) {
+    copied.push([]);
+    for (let j = 0; j < COL_NUM; j++) {
+      copied[i].push(source[i][j]);
+    }
+  }
+
+  return copied;
+}
