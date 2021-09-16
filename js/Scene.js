@@ -16,14 +16,10 @@ import config from './config.js';
 const { 
   ROW_NUM, 
   COL_NUM, 
-  TITLE, 
   TEXT_BUTTON_REPLAY, 
   TEXT_BUTTON_LIGHT, 
   TEXT_BUTTON_DARK,
-  TEXT_HIGH_SCORE,
-  TEXT_SCORE_TITLE,
   TEXT_SCORE_UNIT,
-  TEXT_TURN_TITLE,
   TEXT_TURN_UNIT,
   TEXT_LOG_TITLE,
   LINK_GITHUB,
@@ -45,62 +41,6 @@ class Scene {
     if (this.isDarkMode()) {
       document.documentElement.setAttribute('color-mode', 'dark');
     }
-  }
-  
-  /**
-   * 점수를 포함한 상단 영역을 렌더링하는 메소드
-   */
-  renderInfo() {
-    // 상단 영역 컨테이너 DOM
-    const $infoContainer = document.createElement('div');
-    $infoContainer.classList.add('info-container');
-    this.$app.prepend($infoContainer);
-
-    // 제목 DOM
-    const $title = document.createElement('h1');
-    $title.innerText = TITLE;
-    $infoContainer.appendChild($title);
-
-    // 제목을 제외한 나머지를 감싸는 영역 DOM
-    const $infoWrapper = document.createElement('div');
-    $infoWrapper.classList.add('info-wrapper');
-    $infoContainer.appendChild($infoWrapper);
-
-    // 최고 점수 컨테이너 DOM
-    const $highScoreContainer = document.createElement('div');
-    $highScoreContainer.classList.add('info');
-    $highScoreContainer.innerText = `${TEXT_HIGH_SCORE}:`;
-    $infoWrapper.appendChild($highScoreContainer);
-
-    // 최고 점수 DOM
-    const $highScore = document.createElement('div');
-    $highScore.classList.add('info-value');
-    $highScoreContainer.appendChild($highScore);
-    this.$highScore = $highScore;
-
-    // 점수 컨테이너 DOM
-    const $scoreContainer = document.createElement('div');
-    $scoreContainer.classList.add('info');
-    $scoreContainer.innerText = `${TEXT_SCORE_TITLE}:`;
-    $infoWrapper.appendChild($scoreContainer);
-
-    // 점수 DOM
-    const $score = document.createElement('div');
-    $score.classList.add('info-value');
-    $scoreContainer.appendChild($score);
-    this.$score = $score;
-
-    // 턴 컨테이너 DOM
-    const $turnContainer = document.createElement('div');
-    $turnContainer.classList.add('info');
-    $turnContainer.innerText = `${TEXT_TURN_TITLE}:`;
-    $infoWrapper.appendChild($turnContainer);
-
-    // 턴 DOM
-    const $turn = document.createElement('div');
-    $turn.classList.add('info-value');
-    $turnContainer.appendChild($turn);
-    this.$turn = $turn;
   }
 
   /**
@@ -380,30 +320,6 @@ class Scene {
     $authorArea.appendChild($original);
     $authorArea.appendChild($developer);
     $ActionsContainer.appendChild($authorArea);
-  }
-
-  /**
-   * 점수를 렌더링하는 메소드
-   * @param {Number} score - 현재 점수
-   */
-  renderScore(score) {
-    this.$score.innerText = score;
-  }
-
-  /**
-   * 최고 점수를 렌더링하는 메소드
-   * @param {Number} highScore - 현재 최고 점수
-   */
-  renderHighScore(highScore) {
-    this.$highScore.innerText = highScore;
-  }
-
-  /**
-   * 현재 턴을 렌더링하는 메소드
-   * @param {Number} turn - 현재 턴
-   */
-  renderTurn(turn) {
-    this.$turn.innerText = turn;
   }
 
   /**

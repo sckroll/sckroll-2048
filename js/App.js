@@ -1,4 +1,5 @@
-import Scene from './scene.js';
+import Scene from './Scene.js';
+import Info from './Info.js'
 import Board from './Board.js';
 import config from './config.js';
 
@@ -32,11 +33,11 @@ class App {
   startGame() {
     // 팝업 및 오버레이 삭제
     this.scene.hideOverlay();
-    if (!this.$app.querySelector('.info-container')) {
-      this.scene.renderInfo();
-    }
-
+    
     // 이미 렌더링이 되어 있으면 렌더링 과정 생략
+    if (!this.info) {
+      this.info = new Info(this.$app);
+    }
     if (!this.$app.querySelector('.actions-container')) {
       this.scene.setReplayEvent(() => {
         this.startGame();
@@ -69,9 +70,9 @@ class App {
     this.setBoardEvents();
 
     // 점수 및 턴 초기화
-    this.scene.renderHighScore(this.board.highScore);
-    this.scene.renderScore(this.board.score);
-    this.scene.renderTurn(this.board.turn);
+    this.info.setHighScore(this.board.highScore);
+    this.info.setScore(this.board.score);
+    this.info.setTurn(this.board.turn);
 
     // 새 블록 생성
     if (this.board.turn === 1) {
@@ -121,17 +122,17 @@ class App {
 
     // 점수 업데이트 이벤트
     this.board.setScoreUpdateEvent(score => {
-      this.scene.renderScore(score);
+      this.info.setScore(score);
     });
 
     // 최고 점수 업데이트 이벤트
     this.board.setHighScoreUpdateEvent(highScore => {
-      this.scene.renderHighScore(highScore);
+      this.info.setHighScore(highScore);
     });
 
     // 현재 턴 업데이터 이벤트
     this.board.setTurnUpdateEvent(turn => {
-      this.scene.renderTurn(turn);
+      this.info.setTurn(turn);
     })
   }
 }
