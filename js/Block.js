@@ -11,7 +11,7 @@ class Block {
     const idx = Math.floor(Math.random() * emptyPos.length);
     const [row, col] = emptyPos.splice(idx, 1)[0];
 
-    state[row][col] = value;
+    state[row][col] = this.value;
 
     this.setCoord(parseInt(row), parseInt(col));
   }
