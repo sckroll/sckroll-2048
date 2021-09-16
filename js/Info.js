@@ -3,6 +3,10 @@ import config from './config.js';
 const { TITLE, TEXT_HIGH_SCORE, TEXT_SCORE_TITLE, TEXT_TURN_TITLE } = config;
 
 class Info {
+  /**
+   * 상단 정보 컨테이너를 관리하는 클래스
+   * @param {HTMLElement} $app - 루트 DOM 객체
+   */
   constructor($app) {
     this.$app = $app;
 
@@ -11,7 +15,7 @@ class Info {
   }
 
   /**
-   * 상단 영역을 초기화
+   * 상단 영역을 초기화하는 메소드
    */
   init() {
     // 상단 영역 컨테이너 DOM

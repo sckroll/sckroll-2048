@@ -11,12 +11,19 @@ const {
 } = config;
 
 class Actions {
+  /**
+   * 하단 버튼 및 링크 컨테이너를 관리하는 클래스
+   * @param {HTMLElement} $app - 루트 DOM 객체
+   */
   constructor($app) {
     this.$app = $app;
 
     this.init();
   }
 
+  /**
+   * 하단 영역을 초기화하는 메소드
+   */
   init() {
     // 하단 영역 컨테이너 DOM
     const $ActionsContainer = document.createElement('div');

@@ -3,16 +3,16 @@ import config from './config.js';
 import { swapRowsCols, reverseRowElements, objectMapper, copyMatrix } from './utils.js';
 
 /**
-* @typedef {object} MoveData 블록 이동 정보를 나타내는 객체
-* @property {number} prevRow
-* @property {number} prevCol
-* @property {number} nextRow
-* @property {number} nextCol
-* @property {number} prevValue
-* @property {number} nextValue
-* @property {boolean} isCollapsed
-* @property {string} direction
-*/
+ * @typedef {object} MoveData 블록 이동 정보를 나타내는 객체
+ * @property {number} prevRow
+ * @property {number} prevCol
+ * @property {number} nextRow
+ * @property {number} nextCol
+ * @property {number} prevValue
+ * @property {number} nextValue
+ * @property {boolean} isCollapsed
+ * @property {string} direction
+ */
 
 const { ROW_NUM, COL_NUM } = config;
 
