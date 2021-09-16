@@ -2,6 +2,7 @@ import Scene from './Scene.js';
 import Info from './Info.js'
 import Actions from './Actions.js';
 import Board from './Board.js';
+import Log from './Log.js';
 import config from './config.js';
 
 const { 
@@ -48,10 +49,10 @@ class App {
     if (!this.$app.querySelector('.ranking-container')) {
       this.scene.renderRanking();
     }
-    if (!this.$app.querySelector('.log-container')) {
-      this.scene.renderLog();
+    if (!this.log) {
+      this.log = new Log(this.$app, this.scene.$mainContainer);
     } else {
-      this.scene.clearLog();
+      this.log.clearLog();
     }
 
     // 보드 생성
@@ -98,7 +99,7 @@ class App {
 
     // 로그 업데이트 이벤트
     this.board.setUpdateLogEvent((message, moveData, turn, prevState) => {
-      this.scene.addToLog(message, moveData, turn, prevState);
+      this.log.add(message, moveData, turn, prevState);
     })
 
     // 게임 승리 이벤트
