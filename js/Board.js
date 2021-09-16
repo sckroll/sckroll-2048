@@ -39,6 +39,7 @@ class Board {
     this.score = 0;
     this.turn = 1;
     this.largestNum = 0;
+    this.cleared = false;
     
     this.highScore =  this.getHighScore();
     this.initialize();
@@ -344,6 +345,8 @@ class Board {
    * @param {KeyboardEvent} event - 키보드 이벤트 객체
    */
   keyboardEventListener({ key }) {
+    if (this.cleared) return;
+
     const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
     if (arrowKeys.includes(key)) {
       // 현재 블록 위치를 저장 (복사)
@@ -358,7 +361,8 @@ class Board {
         this.update();
 
         // 게임 승리 여부 판단
-        if (this.isGameClear()) {
+        this.cleared = this.isGameClear()
+        if (this.cleared) {
           this.setHighScore(this.highScore);
           this.onGameClear();
         }

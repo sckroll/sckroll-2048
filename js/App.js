@@ -10,6 +10,7 @@ const {
   GAME_OVER_DESC, 
   BUTTON_START, 
   BUTTON_REPLAY,
+  LOG_GAME_CLEAR,
   LOG_GAME_OVER
 } = messages;
 
@@ -100,6 +101,7 @@ class App {
 
     // 게임 승리 이벤트
     this.board.setGameClearEvent(() => {
+      this.scene.addToLog(LOG_GAME_CLEAR);
       this.scene.renderPopup({
         title: GAME_CLEAR_TITLE,
         description: GAME_CLEAR_DESC,
