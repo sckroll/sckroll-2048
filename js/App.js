@@ -59,10 +59,7 @@ class App {
     // 보드 생성
     if (this.board) {
       // 기존 보드가 존재한다면 보드 내의 모든 블록 DOM 삭제
-      const $blocks = this.$app.querySelectorAll('.block');
-      for (const $block of $blocks) {
-        $block.remove();
-      }
+      this.board.clear();
     } else {
       // 키보드 이벤트 리스너 등록
       window.addEventListener('keydown', e => this.board.keyboardEventListener(e));

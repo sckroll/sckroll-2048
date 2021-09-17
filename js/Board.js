@@ -343,6 +343,16 @@ class Board {
   }
 
   /**
+   * 모든 블록을 제거하는 메소드
+   */
+  clear() {
+    const $blocks = this.$board.querySelectorAll('.block');
+    for (const $block of $blocks) {
+      $block.remove();
+    }
+  }
+
+  /**
    * 키보드 입력을 처리하는 이벤트 리스너
    * @param {KeyboardEvent} event - 키보드 이벤트 객체
    */
