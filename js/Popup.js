@@ -2,13 +2,15 @@ class Popup {
   /**
    * 팝업 창을 관리하는 클래스
    * @param {HTMLElement} $app - 루트 DOM 객체
-   * @param {{title: string, description: string, buttonText: string}} option - 팝업 창 옵션
-   * @param {() => void} onClick - 시작 버튼을 클릭했을 때 실행되는 함수
+   * @param {{title: string, description: string, buttonText1: string, buttonText2?: string}} option - 팝업 창 옵션
+   * @param {() => void} onClick1 - 첫 번째 버튼을 클릭했을 때 실행되는 함수
+   * @param {() => void} [onClick2] - 첫 번째 버튼을 클릭했을 때 실행되는 함수
    */
-  constructor($app, option, onClick) {
+  constructor($app, option, onClick1, onClick2) {
     this.$app = $app;
     this.option = option;
-    this.onClick = onClick;
+    this.onClick1 = onClick1;
+    this.onClick2 = onClick2;
 
     this.render();
   }
@@ -71,11 +73,22 @@ class Popup {
       $titleContainer.appendChild($popupDescription);
     }
 
+    // 버튼 컨테이너 DOM
+    const $buttonContainer = document.createElement('div');
+    $buttonContainer.classList.add('button-container');
+    $popupContainer.appendChild($buttonContainer);
+
     // 버튼 DOM
-    const $popupButton = document.createElement('button');
-    $popupButton.innerText = this.option.buttonText;
-    $popupButton.addEventListener('click', e => this.onClick(e));
-    $popupContainer.appendChild($popupButton);
+    const $popupButton1 = document.createElement('button');
+    $popupButton1.innerText = this.option.buttonText1;
+    $popupButton1.addEventListener('click', e => this.onClick1(e));
+    $buttonContainer.appendChild($popupButton1);
+    if (this.onClick2) {
+      const $popupButton2 = document.createElement('button');
+      $popupButton2.innerText = this.option.buttonText2;
+      $popupButton2.addEventListener('click', e => this.onClick2(e));
+      $buttonContainer.appendChild($popupButton2);
+    }
   }
 }
 

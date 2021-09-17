@@ -38,6 +38,9 @@ const config = {
   // 다크 모드 버튼 텍스트
   TEXT_BUTTON_DARK: 'DARK MODE',
 
+  // 이어하기 버튼 텍스트
+  TEXT_BUTTON_CONTINUE: 'CONTINUE',
+
   // 최고 점수 텍스트
   TEXT_HIGH_SCORE: 'High Score',
 

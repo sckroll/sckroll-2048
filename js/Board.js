@@ -41,7 +41,8 @@ class Board {
     this.score = 0;
     this.turn = 1;
     this.largestNum = 0;
-    this.cleared = false;
+    this.gameCleared = false;
+    this.gameContinued = false;
     
     this.highScore =  this.getHighScore();
     this.initialize();
@@ -353,11 +354,19 @@ class Board {
   }
 
   /**
+   * 2048 완성 후 게임을 이어할 수 있도록 설정하는 메소드
+   */
+  continueBoard() {
+    this.gameCleared = false;
+    this.gameContinued = true;
+  }
+
+  /**
    * 키보드 입력을 처리하는 이벤트 리스너
    * @param {KeyboardEvent} event - 키보드 이벤트 객체
    */
   keyboardEventListener({ key }) {
-    if (this.cleared) return;
+    if (this.gameCleared) return;
 
     const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
     if (arrowKeys.includes(key)) {
@@ -372,11 +381,13 @@ class Board {
         // 점수, 턴 등 업데이트
         this.update();
 
-        // 게임 승리 여부 판단
-        this.cleared = this.isGameClear()
-        if (this.cleared) {
-          this.setHighScore(this.highScore);
-          this.onGameClear();
+        // 2048 완성 전까지만 게임 승리 여부 판단
+        if (!this.gameContinued) {
+          this.gameCleared = this.isGameClear()
+          if (this.gameCleared) {
+            this.setHighScore(this.highScore);
+            this.onGameClear();
+          }
         }
         
         // 새 블록 생성

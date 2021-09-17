@@ -99,6 +99,10 @@ button.width-fixed {
   color: var(--color-description);
   margin-top: 8px;
 }
+.button-container {
+  display: flex;
+  justify-content: space-evenly;
+}
 
 .info-container {
   width: 512px;

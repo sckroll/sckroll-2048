@@ -16,6 +16,7 @@ const {
   LOG_GAME_OVER,
   TEXT_BUTTON_START, 
   TEXT_BUTTON_REPLAY,
+  TEXT_BUTTON_CONTINUE
 } = config;
 
 class App {
@@ -26,7 +27,7 @@ class App {
     // 화면 렌더링
     this.popup = new Popup($app, {
       title: TITLE,
-      buttonText: TEXT_BUTTON_START
+      buttonText1: TEXT_BUTTON_START
     }, () => this.startGame());
   }
 
@@ -103,11 +104,18 @@ class App {
     // 게임 승리 이벤트
     this.board.setGameClearEvent(() => {
       this.log.add(LOG_GAME_CLEAR);
-      this.popup = new Popup(this.$app, {
-        title: GAME_CLEAR_TITLE,
-        description: GAME_CLEAR_DESC,
-        buttonText: TEXT_BUTTON_REPLAY
-      }, () => this.startGame());
+      this.popup = new Popup(this.$app, 
+        {
+          title: GAME_CLEAR_TITLE,
+          description: GAME_CLEAR_DESC,
+          buttonText1: TEXT_BUTTON_REPLAY,
+          buttonText2: TEXT_BUTTON_CONTINUE
+        }, 
+        () => this.startGame(),
+        () => {
+          this.popup.hide();
+          this.board.continueBoard();
+        });
     });
 
     // 게임 오버 이벤트
@@ -116,7 +124,7 @@ class App {
       this.popup = new Popup(this.$app, {
         title: GAME_OVER,
         description: GAME_OVER_DESC,
-        buttonText: TEXT_BUTTON_REPLAY
+        buttonText1: TEXT_BUTTON_REPLAY
       }, () => this.startGame());
     });
 
