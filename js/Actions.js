@@ -18,13 +18,13 @@ class Actions {
   constructor($app) {
     this.$app = $app;
 
-    this.init();
+    this.render();
   }
 
   /**
-   * 하단 영역을 초기화하는 메소드
+   * 하단 영역을 렌더링하는 메소드
    */
-  init() {
+  render() {
     // 하단 영역 컨테이너 DOM
     const $ActionsContainer = document.createElement('div');
     $ActionsContainer.classList.add('actions-container');

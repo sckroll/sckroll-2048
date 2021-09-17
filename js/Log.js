@@ -18,13 +18,13 @@ class Log {
     this.$app = $app;
     this.$mainContainer = $mainContainer;
 
-    this.init();
+    this.render();
   }
 
   /**
-   * 로그 영역을 초기화하는 메소드
+   * 로그 영역을 렌더링하는 메소드
    */
-  init() {
+  render() {
     // 로그 컨테이너 DOM
     const $logContainer = document.createElement('div');
     $logContainer.classList.add('log-container');
