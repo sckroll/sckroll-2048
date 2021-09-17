@@ -44,6 +44,12 @@ class Log {
     $logToggleButton.addEventListener('click', () => this.toggleLogVisibility());
     this.$logContent = $logContent;
 
+    // 로그 영역의 하단 여백 DOM
+    // 스크롤 최하단 로그의 툴팁 가시성 향상을 위해 추가
+    const $bottomMargin = document.createElement('div');
+    $bottomMargin.classList.add('bottom-margin');
+    this.$logContent.appendChild($bottomMargin);
+
     // 토글 표시 여부 확인
     if (localStorage.getItem(KEY_LOG_VISIBILITY)) {
       $logContainer.appendChild($logContent);
@@ -156,8 +162,8 @@ class Log {
    * 로그를 비우는 메소드
    */
   clearLog() {
-    while (this.$logContent.hasChildNodes()) {
-      this.$logContent.removeChild(this.$logContent.lastChild);
+    while (this.$logContent.childElementCount > 1) {
+      this.$logContent.removeChild(this.$logContent.firstChild);
     }
   }
 

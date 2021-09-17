@@ -263,6 +263,9 @@ button.width-fixed {
   color: var(--color-link-hover);
   transition: all 0.2s ease;
 }
+.bottom-margin {
+  height: 160px;
+}
 .position-overlay {
   position: absolute;
   top: 0;

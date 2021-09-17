@@ -1,13 +1,3 @@
-import config from './config.js';
-
-const {
-  ROW_NUM,
-  COL_NUM,
-  TEXT_SCORE_UNIT,
-  TEXT_TURN_UNIT,
-  TEXT_LOG_TITLE,
-} = config;
-
 class Popup {
   /**
    * 팝업 창을 관리하는 클래스
