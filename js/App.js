@@ -3,6 +3,7 @@ import Info from './Info.js'
 import Actions from './Actions.js';
 import Board from './Board.js';
 import Log from './Log.js';
+import Popup from './Popup.js';
 import config from './config.js';
 
 const { 
@@ -23,7 +24,7 @@ class App {
     this.scene = new Scene($app);
 
     // 화면 렌더링
-    this.scene.renderPopup({
+    this.popup = new Popup($app, {
       title: TITLE,
       buttonText: TEXT_BUTTON_START
     }, () => this.startGame());
@@ -34,7 +35,7 @@ class App {
   */
   startGame() {
     // 팝업 및 오버레이 삭제
-    this.scene.hideOverlay();
+    this.popup.hide();
     
     // 이미 렌더링이 되어 있으면 렌더링 과정 생략
     if (!this.info) {
@@ -104,22 +105,22 @@ class App {
 
     // 게임 승리 이벤트
     this.board.setGameClearEvent(() => {
-      this.scene.addToLog(LOG_GAME_CLEAR);
-      this.scene.renderPopup({
+      this.log.add(LOG_GAME_CLEAR);
+      this.popup = new Popup(this.$app, {
         title: GAME_CLEAR_TITLE,
         description: GAME_CLEAR_DESC,
         buttonText: TEXT_BUTTON_REPLAY
-      }, () => this.startGame(this.$app));
+      }, () => this.startGame());
     });
 
     // 게임 오버 이벤트
     this.board.setGameOverEvent(() => {
-      this.scene.addToLog(LOG_GAME_OVER);
-      this.scene.renderPopup({
+      this.log.add(LOG_GAME_OVER);
+      this.popup = new Popup(this.$app, {
         title: GAME_OVER,
         description: GAME_OVER_DESC,
         buttonText: TEXT_BUTTON_REPLAY
-      }, () => this.startGame(this.$app));
+      }, () => this.startGame());
     });
 
     // 점수 업데이트 이벤트
