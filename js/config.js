@@ -71,6 +71,9 @@ const config = {
   // 로그 표시 여부 로컬 스토리지 키 이름
   KEY_LOG_VISIBILITY: '2048-key',
 
+  // 로그 표시 여부 로컬 스토리지 키 이름
+  KEY_HIGH_SCORE: '2048-high-score',
+
   // 컬러 모드 로컬 스토리지 값 (라이트 모드)
   VALUE_LIGHT: 'light',
 

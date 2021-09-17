@@ -14,7 +14,7 @@ import { swapRowsCols, reverseRowElements, objectMapper, copyMatrix } from './ut
  * @property {string} direction
  */
 
-const { ROW_NUM, COL_NUM } = config;
+const { ROW_NUM, COL_NUM, KEY_HIGH_SCORE } = config;
 
 /**
  * 배열 형식의 블록 이동 정보를 객체 타입으로 변환하는 함수
@@ -138,7 +138,7 @@ class Board {
    * @param {number} score - 새로운 최고 점수
    */
   setHighScore(score) {
-    localStorage.setItem('2048-high-score', score);
+    localStorage.setItem(KEY_HIGH_SCORE, score);
   }
 
   /**
@@ -146,7 +146,7 @@ class Board {
    * @returns {number} 현재 최고 점수
    */
   getHighScore() {
-    const highScore = localStorage.getItem('2048-high-score') || 0;
+    const highScore = localStorage.getItem(KEY_HIGH_SCORE) || 0;
     return highScore;
   }
 
