@@ -14,7 +14,7 @@ import { isDarkMode } from './utils.js';
  * @property {string} direction
  */
 
-const { ROW_NUM, COL_NUM } = config;
+const { ROW_NUM, COL_NUM, VALUE_LIGHT, VALUE_DARK } = config;
 
 class Scene {
   /**
@@ -28,9 +28,8 @@ class Scene {
     this.renderBoard();
 
     // 다크 모드 여부 확인
-    if (isDarkMode()) {
-      document.documentElement.setAttribute('color-mode', 'dark');
-    }
+    const colorMode = isDarkMode() ? VALUE_DARK : VALUE_LIGHT;
+    document.documentElement.setAttribute('color-mode', colorMode);
   }
 
   /**

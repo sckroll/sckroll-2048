@@ -7,7 +7,10 @@ const {
   TEXT_BUTTON_DARK,
   LINK_GITHUB,
   LINK_ORIGINAL,
-  LINK_DEVELOPER
+  LINK_DEVELOPER,
+  KEY_COLOR_MODE,
+  VALUE_LIGHT,
+  VALUE_DARK
 } = config;
 
 class Actions {
@@ -57,8 +60,8 @@ class Actions {
     const $darkModeButton = document.createElement('button');
     $darkModeButton.classList.add('width-fixed');
     if (isDarkMode()) {
-      document.documentElement.setAttribute('color-mode', 'dark');
-      $darkModeButton.classList.add('dark');
+      document.documentElement.setAttribute('color-mode', VALUE_DARK);
+      $darkModeButton.classList.add(VALUE_DARK);
       $darkModeButton.innerText = TEXT_BUTTON_LIGHT;
     } else {
       $darkModeButton.innerText = TEXT_BUTTON_DARK;
@@ -84,18 +87,18 @@ class Actions {
    * @param {MouseEvent} event - 마우스 클릭 이벤트
    */
   toggleColorMode({ target }) {
-    if (target.classList.contains('dark')) {
+    if (target.classList.contains(VALUE_DARK)) {
       // 다크 모드 -> 라이트 모드
-      document.documentElement.setAttribute('color-mode', 'light');
-      localStorage.setItem('2048-color-mode', 'light');
+      document.documentElement.setAttribute('color-mode', VALUE_LIGHT);
+      localStorage.setItem(KEY_COLOR_MODE, VALUE_LIGHT);
       this.$darkModeButton.innerText = TEXT_BUTTON_DARK;
     } else {
       // 라이트 모드 -> 다크 모드
-      document.documentElement.setAttribute('color-mode', 'dark');
-      localStorage.setItem('2048-color-mode', 'dark');
+      document.documentElement.setAttribute('color-mode', VALUE_DARK);
+      localStorage.setItem(KEY_COLOR_MODE, VALUE_DARK);
       this.$darkModeButton.innerText = TEXT_BUTTON_LIGHT;
     }
-    target.classList.toggle('dark');
+    target.classList.toggle(VALUE_DARK);
   }
 
   /**

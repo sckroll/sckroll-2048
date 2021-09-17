@@ -1,5 +1,6 @@
 import config from './config.js';
-const { ROW_NUM, COL_NUM } = config;
+
+const { ROW_NUM, COL_NUM, KEY_COLOR_MODE, VALUE_DARK } = config;
 
 /**
  * 행렬의 각 열과 행을 스왑하는 함수
@@ -74,7 +75,7 @@ export function isDarkMode() {
   const { matches } = window.matchMedia('(prefers-color-scheme: dark)');
 
   // 로컬 스토리지 -> OS 설정값 순으로 판단
-  const isStorageValueDark = localStorage.getItem('2048-color-mode') === 'dark';
-  const isOSValueDark = matches && !localStorage.getItem('2048-color-mode');
+  const isStorageValueDark = localStorage.getItem(KEY_COLOR_MODE) === VALUE_DARK;
+  const isOSValueDark = matches && !localStorage.getItem(KEY_COLOR_MODE);
   return isStorageValueDark || isOSValueDark;
 }

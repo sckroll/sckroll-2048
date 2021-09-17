@@ -63,7 +63,19 @@ const config = {
   LINK_ORIGINAL: 'https://play2048.co/',
 
   // 제작자 링크
-  LINK_DEVELOPER: 'https://sckroll.github.io/'
+  LINK_DEVELOPER: 'https://sckroll.github.io/',
+
+  // 컬러 모드 로컬 스토리지 키 이름
+  KEY_COLOR_MODE: '2048-color-mode',
+
+  // 로그 표시 여부 로컬 스토리지 키 이름
+  KEY_LOG_VISIBILITY: '2048-key',
+
+  // 컬러 모드 로컬 스토리지 값 (라이트 모드)
+  VALUE_LIGHT: 'light',
+
+  // 컬러 모드 로컬 스토리지 값 (다크 모드)
+  VALUE_DARK: 'dark'
 };
 
 export default config;

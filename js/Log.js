@@ -6,6 +6,7 @@ const {
   TEXT_SCORE_UNIT,
   TEXT_TURN_UNIT,
   TEXT_LOG_TITLE,
+  KEY_LOG_VISIBILITY
 } = config;
 
 class Log {
@@ -44,7 +45,7 @@ class Log {
     this.$logContent = $logContent;
 
     // 토글 표시 여부 확인
-    if (localStorage.getItem('2048-log')) {
+    if (localStorage.getItem(KEY_LOG_VISIBILITY)) {
       $logContainer.appendChild($logContent);
     }
   }
@@ -166,10 +167,10 @@ class Log {
   toggleLogVisibility() {
     if (this.$logContainer.lastChild === this.$logContent) {
       this.$logContent.remove();
-      localStorage.removeItem('2048-log');
+      localStorage.removeItem(KEY_LOG_VISIBILITY);
     } else {
       this.$logContainer.appendChild(this.$logContent);
-      localStorage.setItem('2048-log', 'true');
+      localStorage.setItem(KEY_LOG_VISIBILITY, 'true');
     }
   }
 }
