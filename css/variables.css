@@ -2,7 +2,6 @@
   --color-overlay: #00000044;
 
   --board-width: 512px;
-  --board-height: 512px;
 }
 :root[color-mode="light"] {
   --color-text: black;

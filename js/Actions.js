@@ -135,15 +135,20 @@ class Actions {
     $authorArea.appendChild($developer);
 
     // 링크 버튼 컨테이너 DOM
-    const $linkContainer = document.createElement('a');
+    const $linkContainer = document.createElement('div');
     $linkContainer.classList.add('link-container');
-    $linkContainer.href = LINK_GITHUB;
     $authorArea.appendChild($linkContainer);
 
     // GitHub 링크 버튼 DOM
-    const $githubButton = document.createElement('span');
-    $githubButton.classList.add('link-icon', 'fab', 'fa-github');
+    const $githubButton = document.createElement('a');
+    $githubButton.classList.add('github-button');
+    $githubButton.href = LINK_GITHUB;
     $linkContainer.appendChild($githubButton);
+
+    // GitHub 링크 아이콘 DOM
+    const $githubIcon = document.createElement('span');
+    $githubIcon.classList.add('link-icon', 'fab', 'fa-github');
+    $githubButton.appendChild($githubIcon);
   }
 }
 
