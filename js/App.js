@@ -70,6 +70,9 @@ class App {
       window.addEventListener('mousedown', e => this.board.mouseDownListener(e));
       window.addEventListener('mouseup', () => this.board.mouseUpListener());
       window.addEventListener('mousemove', e => this.board.mouseMoveListener(e));
+      window.addEventListener('touchstart', e => this.board.touchStartListener(e));
+      window.addEventListener('touchend', () => this.board.touchEndListener());
+      window.addEventListener('touchmove', e => this.board.touchMoveListener(e));
     }
     this.board = new Board(this.$app);
     

@@ -402,7 +402,7 @@ class Board {
 
   /**
    * 키보드 입력을 처리하는 이벤트 리스너
-   * @param {KeyboardEvent} event - 키보드 이벤트 객체
+   * @param {KeyboardEvent} e - 키보드 이벤트 객체
    */
   keyboardEventListener({ key }) {
     if (this.gameStopped) return;
@@ -414,25 +414,9 @@ class Board {
   }
 
   /**
-   * 마우스를 클릭하여 슬라이드를 시작했을 때 발생하는 이벤트를 처리하는 리스너
+   * 슬라이드했을 때 방향을 판단하고 그에 따른 액션을 처리하는 메소드
    */
-  mouseDownListener({ clientX, clientY }) {
-    if (this.gameStopped) return;
-
-    this.pressed = true;
-
-    this.sourceX = clientX;
-    this.sourceY = clientY;
-  }
-
-  /**
-   * 마우스 클릭을 중단하여 슬라이드를 끝냈을 때 발생하는 이벤트를 처리하는 리스너
-   */
-  mouseUpListener() {
-    if (this.gameStopped) return;
-
-    this.pressed = false;
-
+  handleSlide() {
     if (this.targetX > -1 && this.targetY > -1) {
       const diffX = this.sourceX - this.targetX;
       const diffY = this.sourceY - this.targetY;
@@ -475,14 +459,71 @@ class Board {
   }
 
   /**
+   * 마우스를 클릭하여 슬라이드를 시작했을 때 발생하는 이벤트를 처리하는 리스너
+   * @param {MouseEvent}} e - 마우스 이벤트 객체
+   */
+  mouseDownListener({ clientX, clientY }) {
+    if (this.gameStopped) return;
+
+    this.pressed = true;
+
+    this.sourceX = clientX;
+    this.sourceY = clientY;
+  }
+
+  /**
+   * 마우스 클릭을 중단하여 슬라이드를 끝냈을 때 발생하는 이벤트를 처리하는 리스너
+   */
+  mouseUpListener() {
+    if (this.gameStopped) return;
+
+    this.pressed = false;
+    this.handleSlide();
+  }
+
+  /**
    * 마우스를 클릭한 상태로 슬라이드했을 때 발생하는 이벤트를 처리하는 리스너
-   * @param {MouseEvent}} event - 키보드 이벤트 객체
+   * @param {MouseEvent} e - 마우스 이벤트 객체
    */
   mouseMoveListener({ clientX, clientY }) {
     if (this.gameStopped || !this.pressed) return;
     
     this.targetX = clientX;
     this.targetY = clientY;
+  }
+
+  /**
+   * 화면을 터치하여 슬라이드를 시작했을 때 발생하는 이벤트를 처리하는 리스너
+   * @param {TouchEvent} e - 터치 이벤트 객체
+   */
+  touchStartListener(e) {
+    if (this.gameStopped) return;
+
+    this.pressed = true;
+
+    this.sourceX = e.touches[0].clientX;
+    this.sourceY = e.touches[0].clientY;
+  }
+
+  /**
+   * 화면 터치를 중단하여 슬라이드를 끝냈을 때 발생하는 이벤트를 처리하는 리스너
+   */
+  touchEndListener() {
+    if (this.gameStopped) return;
+
+    this.pressed = false;
+    this.handleSlide();
+  }
+
+  /**
+   * 화면을 터치한 상태로 슬라이드했을 때 발생하는 이벤트를 처리하는 리스너
+   * @param {TouchEvent} e - 터치 이벤트 객체
+   */
+  touchMoveListener(e) {
+    if (this.gameStopped || !this.pressed) return;
+
+    this.targetX = e.touches[0].clientX;
+    this.targetY = e.touches[0].clientY;
   }
 }
 
