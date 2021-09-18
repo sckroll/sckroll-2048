@@ -3,8 +3,6 @@ html {
   overflow: hidden;
 }
 body {
-  width: 100vw;
-  height: 100vh;
   background-color: var(--color-background);
   color: var(--color-text);
 }
@@ -38,9 +36,11 @@ body {
 }
 
 #app {
-  height: inherit;
+  width: 100vw;
+  height: 100vh;
 }
 a {
+  color: var(--color-text);
   text-decoration: none;
   transition: all 0.2s ease;
 }
@@ -72,7 +72,7 @@ button.width-fixed {
 }
 
 .overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
@@ -286,7 +286,7 @@ button.width-fixed {
 }
 
 .actions-container {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
@@ -487,11 +487,12 @@ a.github-button {
     justify-content: center;
   }
   .author-area {
-    margin-top: 16px;
+    margin-top: 8px;
     display: block;
+    font-size: 0.8em;
   }
   .author-info {
-    margin: 0 0 8px;
+    margin: 0 0 4px;
     justify-content: flex-start;
   }
   .developer-container {
@@ -508,7 +509,7 @@ a.github-button {
     justify-content: center;
   }
   .log-container {
-    bottom: 25%;
+    bottom: 128px;
   }
   .popup-container {
     padding: 32px;
