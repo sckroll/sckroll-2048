@@ -5,7 +5,6 @@ const {
   COL_NUM,
   TEXT_SCORE_UNIT,
   TEXT_TURN_UNIT,
-  TEXT_LOG_TITLE,
   KEY_LOG_VISIBILITY
 } = config;
 
@@ -13,47 +12,12 @@ class Log {
   /**
    * 상단 정보 컨테이너를 관리하는 클래스
    * @param {HTMLElement} $app - 루트 DOM 객체
-   * @param {HTMLDivElement} $mainContainer - 메인(가운데) 컨테이너 DOM 객체
    */
-  constructor($app, $mainContainer) {
+  constructor($app) {
     this.$app = $app;
-    this.$mainContainer = $mainContainer;
+    this.$buttonArea = $app.querySelector('.button-area');
 
     this.render();
-  }
-
-  /**
-   * 로그 영역을 렌더링하는 메소드
-   */
-  render() {
-    // 로그 컨테이너 DOM
-    const $logContainer = document.createElement('div');
-    $logContainer.classList.add('log-container');
-    this.$mainContainer.appendChild($logContainer);
-    this.$logContainer = $logContainer;
-
-    // 로그 토글 버튼 DOM
-    const $logToggleButton = document.createElement('div');
-    $logToggleButton.classList.add('log-toggle-button');
-    $logToggleButton.innerHTML = `${TEXT_LOG_TITLE} <i class="fas fa-chevron-down"></i>`;
-    $logContainer.appendChild($logToggleButton);
-
-    // 로그 영역 DOM
-    const $logContent = document.createElement('div');
-    $logContent.classList.add('log-content');
-    $logToggleButton.addEventListener('click', () => this.toggleLogVisibility());
-    this.$logContent = $logContent;
-
-    // 로그 영역의 하단 여백 DOM
-    // 스크롤 최하단 로그의 툴팁 가시성 향상을 위해 추가
-    const $bottomMargin = document.createElement('div');
-    $bottomMargin.classList.add('bottom-margin');
-    this.$logContent.appendChild($bottomMargin);
-
-    // 토글 표시 여부 확인
-    if (localStorage.getItem(KEY_LOG_VISIBILITY)) {
-      $logContainer.appendChild($logContent);
-    }
   }
 
   /**
@@ -171,12 +135,39 @@ class Log {
    * 로그 화면 표시 여부를 토글하는 메소드
    */
   toggleLogVisibility() {
-    if (this.$logContainer.lastChild === this.$logContent) {
+    if (this.$logContainer.hasChildNodes()) {
       this.$logContent.remove();
       localStorage.removeItem(KEY_LOG_VISIBILITY);
     } else {
       this.$logContainer.appendChild(this.$logContent);
       localStorage.setItem(KEY_LOG_VISIBILITY, 'true');
+    }
+  }
+
+  /**
+   * 로그 영역을 렌더링하는 메소드
+   */
+  render() {
+    // 로그 컨테이너 DOM
+    const $logContainer = document.createElement('div');
+    $logContainer.classList.add('log-container');
+    this.$app.appendChild($logContainer);
+    this.$logContainer = $logContainer;
+
+    // 로그 영역 DOM
+    const $logContent = document.createElement('div');
+    $logContent.classList.add('log-content');
+    this.$logContent = $logContent;
+
+    // 로그 영역의 하단 여백 DOM
+    // 스크롤 최하단 로그의 툴팁 가시성 향상을 위해 추가
+    const $bottomMargin = document.createElement('div');
+    $bottomMargin.classList.add('bottom-margin');
+    this.$logContent.appendChild($bottomMargin);
+
+    // 토글 표시 여부 확인
+    if (localStorage.getItem(KEY_LOG_VISIBILITY)) {
+      $logContainer.appendChild($logContent);
     }
   }
 }

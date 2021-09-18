@@ -3,7 +3,6 @@
 
   --board-width: 512px;
   --board-height: 512px;
-  --log-button-height: 48px;
 }
 :root[color-mode="light"] {
   --color-text: black;
@@ -15,8 +14,6 @@
   --color-block-slot: #eef0f5;
   --color-description: #5f636e;
   --color-link-hover: #777777;
-  --color-log-button: white;
-  --color-log-hover: #eef0f5;
   --color-tooltip: #00000044;
 
   --color-2: #CAF0F8;
@@ -46,8 +43,6 @@
   --color-block-slot: #33313a;
   --color-description: #aaaaaa;
   --color-link-hover: #aaaaaa;
-  --color-log-button: #5f636e;
-  --color-log-hover: #7c808d;
   --color-tooltip: #00000088;
 
   --color-2: #023E8A;

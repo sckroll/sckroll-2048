@@ -42,19 +42,22 @@ class App {
     if (!this.info) {
       this.info = new Info(this.$app);
     }
+    if (!this.log) {
+      this.log = new Log(this.$app);
+    } else {
+      this.log.clearLog();
+    }
     if (!this.actions) {
       this.actions = new Actions(this.$app);
       this.actions.setReplayEvent(() => {
         this.startGame();
       });
-    }
-    if (!this.$app.querySelector('.ranking-container')) {
-      this.scene.renderRanking();
-    }
-    if (!this.log) {
-      this.log = new Log(this.$app, this.scene.$mainContainer);
-    } else {
-      this.log.clearLog();
+      this.actions.setToggleEvent(() => {
+        // this.startGame();
+        // console.log('log');
+        this.log.toggleLogVisibility();
+        this.actions.renderLogToggle();
+      });
     }
 
     // 보드 생성

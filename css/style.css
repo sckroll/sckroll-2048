@@ -5,10 +5,6 @@ html {
 body {
   width: 100vw;
   height: 100vh;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: var(--color-background);
   color: var(--color-text);
 }
@@ -43,10 +39,6 @@ body {
 
 #app {
   height: inherit;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
 }
 a {
   text-decoration: none;
@@ -113,27 +105,25 @@ button.width-fixed {
 }
 
 .info-container {
-  width: 512px;
-  height: 12%;
+  position: absolute;
+  top: 0;
+  width: 100%;
   padding: 16px;
   box-sizing: border-box;
   box-shadow: 0 0 var(--shadow-blur-wide) var(--shadow-spread-wide) var(--color-shadow);
   background-color: var(--color-container);
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   animation: 0.3s linear fadeIn;
   animation-iteration-count: 1;
 }
 .info-container > h1 {
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: 500;
 }
 .info-wrapper {
-  width: 100%;
   display: flex;
-  justify-content: center;
 }
 .info {
   display: flex;
@@ -155,9 +145,10 @@ button.width-fixed {
 
 .main-container {
   display: flex;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  width: inherit;
+  height: inherit;
 }
 
 .board-container {
@@ -209,31 +200,16 @@ button.width-fixed {
   animation-iteration-count: 1;
 }
 
-.ranking-container {
-  width: 256px;
-  background-color: transparent;
-}
-
 .log-container {
+  position: absolute;
+  bottom: 88px;
+  left: 16px;
   width: 256px;
-  box-shadow: 0 0 var(--shadow-blur-wide) var(--shadow-spread-wide) var(--color-shadow);
-  background-color: var(--color-container);
-}
-.log-toggle-button {
-  cursor: pointer;
-  height: var(--log-button-height);
-  padding: 16px;
-  box-sizing: border-box;
-  background-color: var(--color-log-button);
-  transition: all 0.2s ease;
-}
-.log-toggle-button:hover {
-  background-color: var(--color-log-hover);
-  transition: all 0.2s ease;
 }
 .log-content {
-  height: calc(512px - var(--log-button-height));
+  height: 512px;
   background-color: var(--color-container);
+  box-shadow: 0 0 var(--shadow-blur-wide) var(--shadow-spread-wide) var(--color-shadow);
   overflow-y: scroll;
   padding: 16px;
   box-sizing: border-box;
@@ -310,34 +286,51 @@ button.width-fixed {
 }
 
 .actions-container {
-  width: 512px;
-  height: 12%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   box-sizing: border-box;
   padding: 16px;
   box-shadow: 0 0 var(--shadow-blur-wide) var(--shadow-spread-wide) var(--color-shadow);
   background-color: var(--color-container);
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   animation: 0.3s linear fadeIn;
   animation-iteration-count: 1;
 }
 .button-area {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+}
+.button-area > * {
+  margin-right: 16px;
+}
+.button-area > *:last-child {
+  margin-right: 0;
 }
 .link-icon {
   font-size: 1.5em;
 }
 .author-area {
   display: flex;
-  justify-content: space-between;
 }
-.author-area a {
+.author-area > * {
+  margin-right: 16px;
+}
+.author-area > *:last-child {
+  margin-right: 0;
+}
+.author-info {
+  display: flex;
+  align-items: center;
+}
+.author-info a {
+  margin-left: 4px;
+  padding: 3px 0;
+  border-top: 1px solid transparent;
   border-bottom: 1px solid var(--color-text);
 }
-.author-area a:hover {
+.author-info a:hover {
   border-bottom: 1px solid var(--color-link-hover);
 }
 
