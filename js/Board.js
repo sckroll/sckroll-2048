@@ -71,19 +71,10 @@ class Board {
 
   /**
    * 새 블록을 생성하는 메소드
-   * @param {nunber} [value] - 블록의 값 
+   * @param {nunber} [value] - 블록의 값 (생략하면 2 혹은 4로 초기화)
    */
   createBlock(value) {
-    const block = new Block(this.state, this.emptyPos, value);
-    this.onBlockCreate(block);
-  }
-
-  /**
-   * 새 블록을 생성했을 때 호출하는 함수를 설정하는 메소드
-   * @param {(block: Block) => void} onCreate - 새 블록을 만들었을 때 호출하는 이벤트 함수
-   */
-  setCreateBlockEvent(onBlockCreate) {
-    this.onBlockCreate = onBlockCreate;
+    new Block(this.$board, this.state, this.emptyPos, value);
   }
 
   /**

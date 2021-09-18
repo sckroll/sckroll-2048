@@ -89,11 +89,6 @@ class App {
   * 시작 버튼을 클릭했을 때 발생하는 이벤트를 처리하는 메소드
    */
   setBoardEvents() {
-    // 블록 생성 이벤트
-    this.board.setCreateBlockEvent(block => {
-      this.scene.renderNewBlock(block);
-    });
-
     // 블록 업데이트 이벤트
     this.board.setUpdateBlockEvent(moveData => {
       this.scene.renderUpdatedBlock(moveData);

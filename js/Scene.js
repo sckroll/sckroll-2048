@@ -87,17 +87,6 @@ class Scene {
   }
 
   /**
-   * 블록을 화면에 렌더링하는 메소드
-   * @param {Block} block - 생성된 블록 인스턴스
-   */
-  renderNewBlock(block) {
-    const $block = document.createElement('div');
-    $block.classList.add('block', `color-${block.value}`, `r${block.row}`, `c${block.col}`);
-    $block.innerText = block.value;
-    this.$board.appendChild($block);
-  }
-
-  /**
    * 블록을 업데이트 후 렌더링하는 메소드
    * @param {MoveData} moveData - 블록의 업데이트 정보가 담긴 객체
    */
