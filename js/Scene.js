@@ -77,16 +77,6 @@ class Scene {
   }
 
   /**
-   * 랭킹 영역을 렌더링하는 메소드
-   */
-  renderRanking() {
-    // 랭킹 컨테이너 DOM
-    const $rankingContainer = document.createElement('div');
-    $rankingContainer.classList.add('ranking-container');
-    this.$mainContainer.prepend($rankingContainer);
-  }
-
-  /**
    * 블록을 업데이트 후 렌더링하는 메소드
    * @param {MoveData} moveData - 블록의 업데이트 정보가 담긴 객체
    */
