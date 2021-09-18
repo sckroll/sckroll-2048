@@ -128,22 +128,22 @@ class Actions {
     $original.innerHTML = `Inspired by <a href="${LINK_ORIGINAL}">Gabriele Cirulli\'s 2048</a>`;
     $authorArea.appendChild($original);
 
+    // 개발자 정보 컨테이너 DOM
+    const $developerContainer = document.createElement('div');
+    $developerContainer.classList.add('developer-container');
+    $authorArea.appendChild($developerContainer);
+
     // 개발자 정보 DOM
     const $developer = document.createElement('div');
     $developer.classList.add('author-info');
     $developer.innerHTML = `Developed by <a href="${LINK_DEVELOPER}">Sckroll</a>`;
-    $authorArea.appendChild($developer);
-
-    // 링크 버튼 컨테이너 DOM
-    const $linkContainer = document.createElement('div');
-    $linkContainer.classList.add('link-container');
-    $authorArea.appendChild($linkContainer);
+    $developerContainer.appendChild($developer);
 
     // GitHub 링크 버튼 DOM
     const $githubButton = document.createElement('a');
     $githubButton.classList.add('github-button');
     $githubButton.href = LINK_GITHUB;
-    $linkContainer.appendChild($githubButton);
+    $developerContainer.appendChild($githubButton);
 
     // GitHub 링크 아이콘 DOM
     const $githubIcon = document.createElement('span');
