@@ -14,7 +14,7 @@ import { swapRowsCols, reverseRowElements, objectMapper, copyMatrix } from './ut
  * @property {string} direction
  */
 
-const { ROW_NUM, COL_NUM, KEY_HIGH_SCORE } = config;
+const { ROW_NUM, COL_NUM, SLIDE_THRESHOLD, KEY_HIGH_SCORE } = config;
 
 /**
  * 배열 형식의 블록 이동 정보를 객체 타입으로 변환하는 함수
@@ -38,12 +38,20 @@ class Board {
     this.prevState = [];
     this.emptyPos = [];
     this.blockMoveData = [];
+
     this.score = 0;
     this.turn = 1;
     this.largestNum = 0;
-    this.gameCleared = false;
-    this.gameContinued = false;
     
+    this.gameStopped = false;
+    this.gameContinued = false;
+    this.pressed = false;
+    
+    this.sourceX = -1;
+    this.sourceY = -1;
+    this.targetX = -1;
+    this.targetY = -1;
+
     this.highScore =  this.getHighScore();
     this.initialize();
   }
@@ -303,10 +311,10 @@ class Board {
   }
 
   /**
-   * 블록의 이동을 처리하는 메소드
-   * @param {string} key - 키보드 이벤트 객체의 key 속성(`e.key`)에 해당하는 문자열 값
+   * 블록의 실제 이동을 처리하는 메소드
+   * @param {string} key - 키보드 이벤트 객체의 key 속성(`e.key`)에 해당하는 문자열
    */
-  move(key) {
+  moveBlock(key) {
     const dir = key.replace('Arrow', '');
 
     // 방향에 따라 행렬을 변형
@@ -357,8 +365,48 @@ class Board {
    * 2048 완성 후 게임을 이어할 수 있도록 설정하는 메소드
    */
   continueBoard() {
-    this.gameCleared = false;
+    this.gameStopped = false;
     this.gameContinued = true;
+  }
+
+  /**
+   * 해당 방향으로의 블록 이동을 포함한 전반적인 프로세스를 처리하는 메소드
+   * @param {string} key - 키보드 이벤트 객체의 key 속성(`e.key`)에 해당하는 문자열
+   */
+  handleMove(key) {
+    // 현재 블록 위치를 저장 (복사)
+    this.prevState = copyMatrix(this.state);
+
+    // 블록 이동
+    this.moveBlock(key);
+
+    // 블록 막힘 여부 확인
+    if (!this.isStuck()) {
+      // 점수, 턴 등 업데이트
+      this.update();
+
+      // 2048 완성 전까지만 게임 승리 여부 판단
+      if (!this.gameContinued) {
+        if (this.isGameClear()) {
+          this.gameStopped = true;
+          this.pressed = false;
+
+          this.setHighScore(this.highScore);
+          this.onGameClear();
+        }
+      }
+
+      // 새 블록 생성
+      this.createBlock();
+
+      // 게임 오버 여부 판단
+      if (this.isGameOver()) {
+        this.gameStopped = true;
+
+        this.setHighScore(this.highScore);
+        this.onGameOver();
+      }
+    }
   }
 
   /**
@@ -366,40 +414,84 @@ class Board {
    * @param {KeyboardEvent} event - 키보드 이벤트 객체
    */
   keyboardEventListener({ key }) {
-    if (this.gameCleared) return;
+    if (this.gameStopped) return;
 
     const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
     if (arrowKeys.includes(key)) {
-      // 현재 블록 위치를 저장 (복사)
-      this.prevState = copyMatrix(this.state);
+      this.handleMove(key);
+    }
+  }
 
-      // 블록 이동
-      this.move(key);
+  /**
+   * 마우스를 클릭하여 슬라이드를 시작했을 때 발생하는 이벤트를 처리하는 리스너
+   */
+  mouseDownListener({ clientX, clientY }) {
+    if (this.gameStopped) return;
 
-      // 블록 막힘 여부 확인
-      if (!this.isStuck()) {
-        // 점수, 턴 등 업데이트
-        this.update();
+    this.pressed = true;
 
-        // 2048 완성 전까지만 게임 승리 여부 판단
-        if (!this.gameContinued) {
-          this.gameCleared = this.isGameClear()
-          if (this.gameCleared) {
-            this.setHighScore(this.highScore);
-            this.onGameClear();
-          }
+    this.sourceX = clientX;
+    this.sourceY = clientY;
+  }
+
+  /**
+   * 마우스 클릭을 중단하여 슬라이드를 끝냈을 때 발생하는 이벤트를 처리하는 리스너
+   */
+  mouseUpListener() {
+    if (this.gameStopped) return;
+
+    this.pressed = false;
+
+    if (this.targetX > -1 && this.targetY > -1) {
+      const diffX = this.sourceX - this.targetX;
+      const diffY = this.sourceY - this.targetY;
+
+      // X, Y 좌표 이동 절대값이 최소 기준값(threshold)를 넘지 않으면 무시
+      if (Math.max(Math.abs(diffX), Math.abs(diffY)) < SLIDE_THRESHOLD) {
+        return;
+      }
+
+      // 45도씩 8개의 분면으로 나누어서 슬라이드 방향 판단
+      if (diffX >= 0 && diffY >= 0) {
+        if (Math.abs(diffX) < Math.abs(diffY)) {
+          this.handleMove('Up');
+        } else {
+          this.handleMove('Left');
         }
-        
-        // 새 블록 생성
-        this.createBlock();
-
-        // 게임 오버 여부 판단
-        if (this.isGameOver()) {
-          this.setHighScore(this.highScore);
-          this.onGameOver();
+      } else if (diffX >= 0 && diffY < 0) {
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+          this.handleMove('Left');
+        } else {
+          this.handleMove('Down');
+        }
+      } else if (diffX < 0 && diffY < 0) {
+        if (Math.abs(diffX) < Math.abs(diffY)) {
+          this.handleMove('Down');
+        } else {
+          this.handleMove('Right');
+        }
+      } else if (diffX < 0 && diffY >= 0) {
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+          this.handleMove('Right');
+        } else {
+          this.handleMove('Up');
         }
       }
     }
+
+    this.targetX = -1;
+    this.targetY = -1;
+  }
+
+  /**
+   * 마우스를 클릭한 상태로 슬라이드했을 때 발생하는 이벤트를 처리하는 리스너
+   * @param {MouseEvent}} event - 키보드 이벤트 객체
+   */
+  mouseMoveListener({ clientX, clientY }) {
+    if (this.gameStopped || !this.pressed) return;
+    
+    this.targetX = clientX;
+    this.targetY = clientY;
   }
 }
 

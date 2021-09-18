@@ -12,6 +12,14 @@ body {
   background-color: var(--color-background);
   color: var(--color-text);
 }
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
 
 @keyframes fadeIn {
   0% {
@@ -310,7 +318,7 @@ button.width-fixed {
   background-color: var(--color-container);
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   animation: 0.3s linear fadeIn;
   animation-iteration-count: 1;
 }

@@ -5,6 +5,9 @@ const config = {
   // 열의 개수
   COL_NUM: 4,
 
+  // 화면을 슬라이드할 때 최소 이동 기준 값
+  SLIDE_THRESHOLD: 50,
+
   // 게임 타이틀
   TITLE: 'Sckroll 2048',
 

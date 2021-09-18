@@ -64,6 +64,9 @@ class App {
     } else {
       // 키보드 이벤트 리스너 등록
       window.addEventListener('keydown', e => this.board.keyboardEventListener(e));
+      window.addEventListener('mousedown', e => this.board.mouseDownListener(e));
+      window.addEventListener('mouseup', () => this.board.mouseUpListener());
+      window.addEventListener('mousemove', e => this.board.mouseMoveListener(e));
     }
     this.board = new Board(this.$app);
     
