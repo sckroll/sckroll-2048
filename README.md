@@ -9,22 +9,36 @@ https://sckroll-2048.netlify.app/
 ## 구현한 주요 기능
 
 - 현재 점수, 최고 점수, 현재 턴 표시
+- 방향 키로 블록 이동
+- 화면 슬라이드로 블록 이동 (PC, 모바일 모두 지원)
 - 다크 모드 토글
-- 화면 슬라이드로 블록 이동
 - 로그 기능
   - 이전 턴의 블록 배치 상태를 툴팁으로 확인 가능
   - 로그 표시 상태 토글
+- 반응형 디자인
 
 ## 스크린샷
 
-### 라이트 모드
+### 게임 화면 (PC)
 
 <p align="center">
-  <img src="./sample-light.png" alt="sample" style="width: 75%;">
+  <img src="./screenshot-default.png" alt="sample" style="width: 75%;">
+</p>
+
+### 게임 화면 (모바일)
+
+<p align="center">
+  <img src="./screenshot-mobile.jpg" alt="sample"  style="width: 50%;">
 </p>
 
 ### 다크 모드
 
 <p align="center">
-  <img src="./sample-dark.png" alt="sample"  style="width: 75%;">
+  <img src="./screenshot-darkmode.png" alt="sample"  style="width: 75%;">
+</p>
+
+### 로그 기능
+
+<p align="center">
+  <img src="./screenshot-log.png" alt="sample"  style="width: 75%;">
 </p>
