@@ -10,7 +10,7 @@ https://sckroll-2048.netlify.app/
 
 - 현재 점수, 최고 점수, 현재 턴 표시
 - 방향 키로 블록 이동
-- 화면 슬라이드로 블록 이동 (PC, 모바일 모두 지원)
+- 화면 슬라이드로 블록 이동 (데스크탑, 모바일 모두 지원)
 - 다크 모드 토글
 - 로그 기능
   - 이전 턴의 블록 배치 상태를 툴팁으로 확인 가능
@@ -19,7 +19,7 @@ https://sckroll-2048.netlify.app/
 
 ## 스크린샷
 
-### 게임 화면 (PC)
+### 게임 화면 (데스크탑)
 
 <p align="center">
   <img src="./screenshot-default.png" alt="sample" style="width: 75%;">
