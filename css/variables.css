@@ -1,7 +1,7 @@
 :root {
   --color-overlay: #00000044;
 
-  --board-width: 512px;
+  --board-width: 50vh;
 }
 :root[color-mode="light"] {
   --color-text: black;

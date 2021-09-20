@@ -192,7 +192,7 @@ button.width-fixed {
   align-items: center;
   width: calc((var(--board-width) - 32px) / 4);
   height: calc((var(--board-width) - 32px) / 4);
-  font-size: 2em;
+  font-size: 1.75em;
   font-weight: 500;
   box-shadow: inset 0 0 8px 2px var(--color-shadow);
   transition: all 0.2s ease;
@@ -411,6 +411,9 @@ a.github-button {
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
+  .block {
+    font-size: 1.5em;
+  }
   .actions-container {
     display: block;
   }
@@ -426,6 +429,9 @@ a.github-button {
   }
 }
 @media (min-width: 576px) and (max-width: 767px) {
+  .block {
+    font-size: 1.5em;
+  }
   .info-container {
     display: block;
   }
@@ -452,7 +458,7 @@ a.github-button {
 }
 @media (max-width: 575px) {
   #app {
-    --board-width: 90vw;
+    --board-width: 75vw;
   }
   button {
     padding: 8px;
