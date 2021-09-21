@@ -29,7 +29,7 @@ class App {
     const colorMode = isDarkMode() ? VALUE_DARK : VALUE_LIGHT;
     document.documentElement.setAttribute('color-mode', colorMode);
 
-    // 화면 렌더링
+    // 시작 화면 팝업 렌더링
     this.popup = new Popup($app, {
       title: TITLE,
       buttonText1: TEXT_BUTTON_START
@@ -43,7 +43,7 @@ class App {
     // 팝업 및 오버레이 삭제
     this.popup.hide();
     
-    // 이미 렌더링이 되어 있으면 렌더링 과정 생략
+    // 이미 렌더링이 되어 있으면 과정 생략
     if (!this.info) {
       this.info = new Info(this.$app);
     }
