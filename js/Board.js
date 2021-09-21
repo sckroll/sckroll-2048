@@ -32,6 +32,7 @@ class Board {
    * @param {HTMLElement} $app - 루트 DOM 객체
    */
   constructor($app) {
+    this.$app = $app;
     this.$board = $app.querySelector('.board.front');
 
     this.state = [];
@@ -53,13 +54,47 @@ class Board {
     this.targetY = -1;
 
     this.highScore =  this.getHighScore();
-    this.initialize();
+    this.render();
+    this.initPosition();
+  }
+
+  /**
+   * 보드 영역을 렌더링하는 메소드
+   */
+  render() {
+    // 보드 컨테이너 DOM
+    const $boardContainer = document.createElement('div');
+    $boardContainer.classList.add('board-container');
+    this.$app.appendChild($boardContainer);
+
+    // 보드 내부 영역 DOM
+    const $boardInner = document.createElement('div');
+    $boardInner.classList.add('board-inner');
+    $boardContainer.appendChild($boardInner);
+
+    // 보드 배경 DOM
+    const $boardBackground = document.createElement('div');
+    $boardBackground.classList.add('board', 'back');
+    $boardInner.appendChild($boardBackground);
+    for (let row = 0; row < ROW_NUM; row++) {
+      for (let col = 0; col < COL_NUM; col++) {
+        const $blockSlot = document.createElement('div');
+        $blockSlot.classList.add('block-slot');
+        $boardBackground.appendChild($blockSlot);
+      }
+    }
+
+    // 보드 앞부분 DOM
+    const $board = document.createElement('div');
+    $board.classList.add('board', 'front');
+    $boardInner.appendChild($board);
+    this.$board = $board;
   }
 
   /**
    * 보드 내 블록 위치를 나타내는 배열과 비어있는 블록 위치를 저장하는 배열을 초기화하는 메소드
    */
-  initialize() {
+  initPosition() {
     for (let row = 0; row < ROW_NUM; row++) {
       this.state.push([]);
       for (let col = 0; col < COL_NUM; col++) {
@@ -75,14 +110,6 @@ class Board {
    */
   createBlock(value) {
     new Block(this.$board, this.state, this.emptyPos, value);
-  }
-
-  /**
-   * 블록을 업데이트하거나 삭제했을 때 호출하는 함수를 설정하는 메소드
-   * @param {(moveData: MoveData) => void} onBlockUpdate - 블록을 업데이트했을 때 호출하는 이벤트 함수
-   */
-  setUpdateBlockEvent(onBlockUpdate) {
-    this.onBlockUpdate = onBlockUpdate;
   }
 
   /**
@@ -196,7 +223,7 @@ class Board {
   update() {
     for (let data of this.blockMoveData) {
       // 화면에 표시되는 블록을 업데이트
-      this.onBlockUpdate(data);
+      this.renderUpdatedBlock(data);
 
       const { prevRow, prevCol, nextRow, nextCol, nextValue, isCollapsed } = data;
 
@@ -226,6 +253,24 @@ class Board {
     // 다음 턴으로
     this.turn += 1;
     this.onTurnUpdate(this.turn);
+  }
+
+  /**
+   * 블록을 업데이트 후 렌더링하는 메소드
+   * @param {MoveData} moveData - 블록의 업데이트 정보가 담긴 객체
+   */
+  renderUpdatedBlock(moveData) {
+    const { prevRow, prevCol, nextRow, nextCol, prevValue, nextValue, isCollapsed } = moveData;
+    const $block = this.$board.querySelector(`.r${prevRow}.c${prevCol}`);
+
+    if (isCollapsed) {
+      $block.remove();
+    } else {
+      $block.classList.replace(`r${prevRow}`, `r${nextRow}`);
+      $block.classList.replace(`c${prevCol}`, `c${nextCol}`);
+      $block.classList.replace(`color-${prevValue}`, `color-${nextValue}`);
+      $block.innerText = nextValue;
+    }
   }
 
   /**
@@ -350,6 +395,7 @@ class Board {
     for (const $block of $blocks) {
       $block.remove();
     }
+    this.$app.querySelector('.board-container').remove();
   }
 
   /**

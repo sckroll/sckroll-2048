@@ -1,10 +1,10 @@
-import Scene from './Scene.js';
 import Info from './Info.js'
 import Actions from './Actions.js';
 import Board from './Board.js';
 import Log from './Log.js';
 import Popup from './Popup.js';
 import config from './config.js';
+import { isDarkMode } from './utils.js';
 
 const { 
   TITLE, 
@@ -16,13 +16,18 @@ const {
   LOG_GAME_OVER,
   TEXT_BUTTON_START, 
   TEXT_BUTTON_REPLAY,
-  TEXT_BUTTON_CONTINUE
+  TEXT_BUTTON_CONTINUE,
+  VALUE_LIGHT,
+  VALUE_DARK
 } = config;
 
 class App {
   constructor($app) {
     this.$app = $app
-    this.scene = new Scene($app);
+
+    // 다크 모드 여부 확인
+    const colorMode = isDarkMode() ? VALUE_DARK : VALUE_LIGHT;
+    document.documentElement.setAttribute('color-mode', colorMode);
 
     // 화면 렌더링
     this.popup = new Popup($app, {
@@ -53,8 +58,6 @@ class App {
         this.startGame();
       });
       this.actions.setToggleEvent(() => {
-        // this.startGame();
-        // console.log('log');
         this.log.toggleLogVisibility();
         this.actions.renderLogToggle();
       });
@@ -95,11 +98,6 @@ class App {
   * 시작 버튼을 클릭했을 때 발생하는 이벤트를 처리하는 메소드
    */
   setBoardEvents() {
-    // 블록 업데이트 이벤트
-    this.board.setUpdateBlockEvent(moveData => {
-      this.scene.renderUpdatedBlock(moveData);
-    })
-
     // 로그 업데이트 이벤트
     this.board.setUpdateLogEvent((message, moveData, turn, prevState) => {
       this.log.add(message, moveData, turn, prevState);

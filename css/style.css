@@ -38,6 +38,9 @@ body {
 #app {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 a {
   color: var(--color-text);
@@ -143,14 +146,6 @@ button.width-fixed {
   text-align: right;
 }
 
-.main-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: inherit;
-  height: inherit;
-}
-
 .board-container {
   width: var(--board-width);
   height: var(--board-width);
@@ -201,6 +196,7 @@ button.width-fixed {
 }
 
 .log-container {
+  z-index: 1;
   position: absolute;
   bottom: 88px;
   left: 16px;
