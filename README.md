@@ -24,7 +24,13 @@ GitHub에 올라온 해당 게임의 리포지토리 등 2048에 관련된 소�
 
 ### 게임 화면 (모바일)
 
-![android](./images/android.png) ![ios](./images/ios.jpg)
+<img src="./images/android.png" alt="android" />
+
+▲ 안드로이드 (갤럭시 S8+)
+
+<img src="./images/ios.jpg" alt="ios" width="50%" />
+
+▲ iOS (아이폰 14 프로)
 
 - 미디어 쿼리로 반응형 디자인을 적용했으며, 모바일 환경에서도 플레이할 수 있습니다.
 
