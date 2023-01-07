@@ -1,6 +1,6 @@
 # Sckroll 2048
 
-[링크](https://sckroll-2048.netlify.app/)
+[게임 URL](https://sckroll-2048.netlify.app/)
 
 ## 개요
 
@@ -27,7 +27,7 @@ GitHub에 올라온 해당 게임의 리포지토리 등 2048에 관련된 소�
 ### 게임 화면 (모바일)
 
 <p align="center">
-  <img src="./images/android.jpg" alt="android"  style="width: 50%;">
+  <img src="./images/android.png" alt="android"  style="width: 50%;">
   <img src="./images/ios.jpg" alt="ios"  style="width: 50%;">
 </p>
 
@@ -66,8 +66,6 @@ GitHub에 올라온 해당 게임의 리포지토리 등 2048에 관련된 소�
   <img src="./images/flow.png" alt="flow"  style="width: 75%;">
 </p>
 
-## 기타
+## 그 외
 
-게임에 사용된 알고리즘과 회고는 블로그 포스트에 업로드했습니다.
-
-https://sckroll.github.io/projects/2048
+게임에 사용된 알고리즘과 회고는 블로그에 업로드한 [포스트](https://sckroll.github.io/projects/2048)를 참고해주시기 바랍니다.
