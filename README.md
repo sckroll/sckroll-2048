@@ -14,9 +14,7 @@ GitHub에 올라온 해당 게임의 리포지토리 등 2048에 관련된 소�
 
 ### 게임 화면 (데스크탑)
 
-<p align="center">
-  <img src="./images/desktop.png" alt="desktop" style="width: 75%;">
-</p>
+![desktop](./images/desktop.png)
 
 - 상단에는 `현재 점수`, `최고 점수`, `현재 턴`이 표시되며, 하단에는 `로그 창` 토글 버튼, `리플레이` 버튼, `다크 모드` 토글 버튼이 있습니다.
   - `최고 점수`와 `다크 모드` 상태는 `localStorage`에 저장합니다.
@@ -35,19 +33,15 @@ GitHub에 올라온 해당 게임의 리포지토리 등 2048에 관련된 소�
 
 ### 다크 모드
 
-<p align="center">
-  <img src="./images/darkmode.png" alt="darkmode"  style="width: 75%;">
-</p>
+![darkmode](./images/darkmode.png)
 
 - `prefers-color-scheme` 미디어 쿼리로 시스템 색상 여부를 판단하여 초기 실행 시의 색상 모드를 결정하도록 구현했습니다.
 - 하단의 `다크 모드` 토글 버튼을 눌러서 색상 모드를 전환할 수 있습니다.
 
 ### 로그 기능
 
-<p align="center">
-  <img src="./images/log-1.png" alt="log1"  style="width: 75%;">
-  <img src="./images/log-2.png" alt="log2"  style="width: 75%;">
-</p>
+![log-1](./images/log-1.png)
+![log-2](./images/log-2.png)
 
 - 지금까지 이동한 블록의 정보(방향, 획득한 점수, 블록의 위치)를 로그 형식으로 볼 수 있습니다.
 - 각 아이템의 가장 우측에 있는 아이콘에 마우스를 올리면 해당 턴에서의 블록 위치를 확인할 수 있습니다.
@@ -56,15 +50,11 @@ GitHub에 올라온 해당 게임의 리포지토리 등 2048에 관련된 소�
 
 전체 구조는 다음과 같습니다.
 
-<p align="center">
-  <img src="./images/structure.png" alt="structure"  style="width: 75%;">
-</p>
+![structure](./images/structure.png)
 
 게임의 흐름은 다음과 같이 구성했습니다.
 
-<p align="center">
-  <img src="./images/flow.png" alt="flow"  style="width: 75%;">
-</p>
+![flow](./images/flow.png)
 
 ## 그 외
 
