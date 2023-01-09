@@ -106,7 +106,7 @@ class Board {
 
   /**
    * 새 블록을 생성하는 메소드
-   * @param {nunber} [value] - 블록의 값 (생략하면 2 혹은 4로 초기화)
+   * @param {number} [value] - 블록의 값 (생략하면 2 혹은 4로 초기화)
    */
   createBlock(value) {
     new Block(this.$board, this.state, this.emptyPos, value);
