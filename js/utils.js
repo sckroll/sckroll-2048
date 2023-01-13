@@ -43,9 +43,11 @@ export function reverseRowElements(board) {
  */
 export function objectMapper(keys, values) {
   const result = {};
+
   for (let i = 0; i < keys.length; i++) {
     result[keys[i]] = values[i];
   }
+
   return result;
 }
 
@@ -55,15 +57,12 @@ export function objectMapper(keys, values) {
  * @returns {number[][]} 복사된 2차원 배열
  */
 export function copyMatrix(source) {
-  const copied = []
+  const copied = [];
 
   for (let i = 0; i < ROW_NUM; i++) {
-    copied.push([]);
-    for (let j = 0; j < COL_NUM; j++) {
-      copied[i].push(source[i][j]);
-    }
+    copied.push([...source[i]]);
   }
-
+  
   return copied;
 }
 
